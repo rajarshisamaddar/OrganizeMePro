@@ -18,6 +18,7 @@ const Sidebar = () => {
       <div className="gap-4 flex flex-col justify-center">
         <h1 className="my-2 text-xl font-semibold">Topics</h1>
         <ul className="flex flex-col gap-4">
+          <h1>All</h1>
           {categoryData.map((item) => (
             <li
               key={item.id}
