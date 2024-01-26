@@ -10,16 +10,22 @@ const UserSchema = new Schema(
       required: [true, "Email is required!"],
       trim: true,
     },
+    username: {
+      type: String,
+      unique: [true, "Username already exists!"],
+      required: [true, "Username is required!"],
+      trim: true,
+      maxlength: [14, "Username can not exceed 32 characters!"],
+    },
     fullName: {
       type: String,
       required: [true, "Full name is required!"],
       trim: true,
       maxlengh: [64, "Full name can not exceed 64 characters!"],
     },
-    theme: {
-      type: String,
-      default: "light",
-      enum: ["light", "dark"],
+    style: {
+      type: Object,
+      required: [true, "Style is required!"],
     },
     password: {
       type: String,
@@ -29,7 +35,7 @@ const UserSchema = new Schema(
     },
     todos: [{ type: Schema.Types.ObjectId, ref: "Task" }],
     categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
-    accessToken: {
+    refreshToken: {
       type: String,
     },
   },
@@ -45,12 +51,23 @@ UserSchema.pre("save", function (next) {
 });
 
 UserSchema.methods.generateAccessToken = function () {
-  this.accessToken = jwt.sign(
-    { _id: this._id, email: this.email, fullName: this.fullName },
+  return jwt.sign(
+    { _id: this._id, email: this.email },
     process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
+  );
+};
+
+UserSchema.methods.generateRefreshToken = function () {
+  return jwt.sign(
     {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    }
+      _id: this._id,
+      username: this.username,
+      email: this.email,
+      fullName: this.fullName,
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
   );
 };
 
