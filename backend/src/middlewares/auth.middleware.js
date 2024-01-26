@@ -28,6 +28,11 @@ export const verifyJWT = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      return res
+        .status(401)
+        .send("Access token is expired please refresh your tokens");
+    }
     res.status(401).send(err.message);
   }
 };
