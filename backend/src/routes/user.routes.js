@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import AsyncErrorHandler from "../utils/AsyncErrorHandler.js";
+
 import {
   registerUser,
   loginUser,
+  getNewAccessToken,
   getUserDetails,
   updateUserDetails,
 } from "../controllers/user.controller.js";
@@ -11,18 +12,19 @@ import {
 const router = Router();
 
 // COMPLETE: post => register user
-router.route("/register").post(AsyncErrorHandler(registerUser));
+router.route("/register").post(registerUser);
 
 // COMPLETE: post => login user
-router.route("/login").post(verifyJWT, AsyncErrorHandler(loginUser));
+router.route("/login").post(loginUser);
 
-// COMPLETE: get => get user details
-router.route("/me/:email").get(verifyJWT, AsyncErrorHandler(getUserDetails));
+// COMPLETE: get => new access token and refresh token using refresh token
+router.route("/refresh-tokens").get(getNewAccessToken);
 
-// COMPLETE: patch => update user details
-router
-  .route("/me/:email")
-  .patch(verifyJWT, AsyncErrorHandler(updateUserDetails));
+// COMPLETE: get => get user details using email
+router.route("/me/:email").get(verifyJWT, getUserDetails);
+
+// COMPLETE: patch => update user details using email
+router.route("/me/:email").patch(verifyJWT, updateUserDetails);
 
 // TODO: delete => delete user
 // TODO: post => forgot password
