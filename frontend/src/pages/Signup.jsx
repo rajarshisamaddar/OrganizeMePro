@@ -7,11 +7,31 @@ import { signupInitialValues, signupSchema } from "@/schema/AuthSchema";
 import { Form, Formik } from "formik";
 import InputField from "@/components/AuthForm/InputField";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/AuthSlice";
+import {jwtDecode} from "jwt-decode";
 const Signup = () => {
   const navigate = useNavigate();
-  const handleSubmit = (values) =>{
-    navigate('/')
-  }
+  const dispatch = useDispatch();
+  const handleSubmit = (values) => {
+    const data = {
+      ...values,
+      style: {
+        theme: "light",
+        color: "#571089",
+      },
+    };
+    console.log(data);
+    axios
+      .post("http://localhost:8800/api/v1/user/register", data)
+      .then((response) => {
+        console.log(response);
+        dispatch(setUser(response.data))
+        navigate("/");
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <Formik
       className="flex flex-col gap-3 w-full"
@@ -23,7 +43,7 @@ const Signup = () => {
         <Form action="" className="flex flex-col gap-4 w-full">
           <InputField
             icon={<HiOutlineUserCircle />}
-            name="fullname"
+            name="fullName"
             type="text"
             placeholder="enter fullname..."
             errors={errors}

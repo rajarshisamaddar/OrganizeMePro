@@ -5,16 +5,26 @@ import { loginSchema, loginInitialValues } from "@/schema/AuthSchema";
 import { Form, Formik } from "formik";
 import InputField from "@/components/AuthForm/InputField";
 import { setUser } from "@/redux/slices/AuthSlice";
+import { CiUser } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (values) =>{
-    dispatch(setUser(values));
-    navigate('/');
-  }
+  const handleSubmit = (values) => {
+    axios.post('http://localhost:8800/api/v1/user/login',values)
+    .then((response)=>{
+      console.log(response.data);
+      dispatch(setUser(response.data));
+      navigate("/");
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+
+  };
   return (
     <Formik
       className="flex flex-col gap-4 w-full"
@@ -24,6 +34,14 @@ const Login = () => {
     >
       {({ errors, touched }) => (
         <Form action="" className="flex flex-col gap-4 w-full">
+          <InputField
+            icon={<CiUser />}
+            name="username"
+            type="text"
+            placeholder="enter username..."
+            errors={errors}
+            touched={touched}
+          />
           <InputField
             icon={<AiOutlineMail />}
             name="email"
