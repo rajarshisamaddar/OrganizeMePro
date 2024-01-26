@@ -29,6 +29,13 @@ const taskSchema = new mongoose.Schema(
       enum: ["pending", "ongoing", "completed", "archived"],
       required: [true, "Status is required"],
     },
+    assignedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: function () {
+        return this.user;
+      },
+    },
     dueDate: {
       type: Date,
       required: [true, "Due date is required"],
