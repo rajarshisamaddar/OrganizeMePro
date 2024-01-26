@@ -13,7 +13,7 @@ function App() {
       {/* Private Routes */}
       <Route element={<PrivateRouter />}>
         <Route index element={<Home />} />
-        <Route path="/:topic/:id" element={<Category />} />
+        <Route path="/:id" element={<Category />} />
       </Route>
 
       <Route element={<AuthLayout />}>

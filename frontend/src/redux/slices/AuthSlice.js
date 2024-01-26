@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   theme: JSON.parse(localStorage.getItem("theme")) || null,
-  user:null,
+  user:{},
 };
 
 export const authSlice = createSlice({
