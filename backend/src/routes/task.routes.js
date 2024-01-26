@@ -4,8 +4,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 // TODO: post => create new task
-// TODO: get => get all tasks
-// TODO: patch => update task details
-// TODO: delete => delete task
+// TODO: patch => update a particular task
+// TODO: delete => delete a particular task
 
 export default router;
