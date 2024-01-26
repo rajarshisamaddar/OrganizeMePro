@@ -4,18 +4,19 @@ const CategorySchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
       trim: true,
+      required: true,
       maxlength: [128, "Category name can be 128 characters long at most!"],
-      unique: [true, "Category with this name already exists"],
     },
     description: {
       type: String,
+      required: true,
       trim: true,
       maxlength: [256, "Description can be 256 characters long at most!"],
     },
     style: {
       type: Object,
+      required: true,
     },
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
     todo: [{ type: Schema.Types.ObjectId, ref: "Todo" }],
