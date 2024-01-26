@@ -1,12 +1,23 @@
 import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import CustomError from "./utils/CustomError.js";
 import { GlobalErrorHandler } from "./utils/GlobalErrorHandler.js";
 
 const app = express();
 
-app.use(express.json({ limit: "50kb" }));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
 
-app.use(express.urlencoded({ extended: true, limit: "50kb" }));
+app.use(express.json({ limit: "50kb" })); // for parsing application/json
+
+app.use(express.urlencoded({ extended: true, limit: "50kb" })); // for parsing application/x-www-form-urlencoded
+
+app.use(cookieParser()); // for parsing cookies
 
 // import all routes from "./routes/";
 import userRoutes from "./routes/user.routes.js";
@@ -24,7 +35,7 @@ app.use("*", (req, res, next) => {
   next(err, req, res, next);
 });
 
-// global error 
+// global error
 app.use(GlobalErrorHandler);
 
 export { app };
