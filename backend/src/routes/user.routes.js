@@ -11,19 +11,19 @@ import {
 
 const router = Router();
 
-// COMPLETE: post => register user
+// ALPHA: post => register user
 router.route("/register").post(registerUser);
 
-// COMPLETE: post => login user
+// ALPHA: post => login user
 router.route("/login").post(loginUser);
 
-// COMPLETE: get => new access token and refresh token using refresh token
+// ALPHA: get => new access token and refresh token using refresh token
 router.route("/refresh-tokens").post(getNewAccessToken);
 
-// COMPLETE: get => get user details using email
+// ALPHA: get => get user details using email
 router.route("/me/:email").get(verifyJWT, getUserDetails);
 
-// COMPLETE: patch => update user details using email
+// ALPHA: patch => update user details using email
 router.route("/me/:email").patch(verifyJWT, updateUserDetails);
 
 // TODO: delete => delete user
