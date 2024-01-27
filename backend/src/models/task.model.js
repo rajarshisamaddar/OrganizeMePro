@@ -32,9 +32,7 @@ const taskSchema = new mongoose.Schema(
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      default: function () {
-        return this.user;
-      },
+      required: [true, "Assigned user is required"],
     },
     dueDate: {
       type: Date,
