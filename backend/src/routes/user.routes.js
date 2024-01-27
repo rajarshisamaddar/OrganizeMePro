@@ -18,7 +18,7 @@ router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 
 // COMPLETE: get => new access token and refresh token using refresh token
-router.route("/refresh-tokens").get(getNewAccessToken);
+router.route("/refresh-tokens").post(getNewAccessToken);
 
 // COMPLETE: get => get user details using email
 router.route("/me/:email").get(verifyJWT, getUserDetails);
