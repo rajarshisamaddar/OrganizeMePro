@@ -3,9 +3,9 @@ import { CiSearch } from "react-icons/ci";
 import { RiMenu2Fill } from "react-icons/ri";
 import { IoSearchOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
-import { IoMoon } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import avatar from "@/assets/avatar.jpg";
+import Themetoggle from "../Theme/Themetoggle";
 const Header = ({ setOpen }) => {
   const [openSearch, setOpenSearch] = useState(false);
   return (
@@ -28,7 +28,7 @@ const Header = ({ setOpen }) => {
         >
           <CiSearch className="text-xl text-primaryColor font-bold" />
           <input
-            type="search"
+            type="text"
             name=""
             id=""
             className="w-full bg-transparent p-1 outline-none"
@@ -45,13 +45,7 @@ const Header = ({ setOpen }) => {
             {openSearch ? <RxCross2 /> : <IoSearchOutline />}
           </div>
           <div className="flex items-center gap-4 md:gap-3 cursor-pointer">
-            <div
-              className="md:text-xl text-2xl flex md:bg-background md:h-[2.9rem] md:w-[2.9rem] sm:h-8 sm:w-8 rounded-full 
-              text-gray-500 justify-center items-center
-              md:hover:bg-primaryColor transition-transition cursor-pointer md:hover:text-cardBg md:border border-border"
-            >
-              <IoMoon />
-            </div>
+            <Themetoggle />
             <div
               className="md:text-xl text-2xl flex md:bg-background md:h-[2.9rem] md:w-[2.9rem] sm:h-8 sm:w-8 rounded-full 
               text-gray-500 
@@ -68,7 +62,9 @@ const Header = ({ setOpen }) => {
                 className="h-12 w-12 sm:h-10 sm:w-10 rounded-full border border-border"
               />
               <h1 className="sm:hidden text-sm font-semibold">
-                Soumayadip Saha
+                Soumayadip
+                <br />
+                Saha
               </h1>
             </div>
           </div>

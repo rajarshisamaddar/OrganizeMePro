@@ -17,8 +17,8 @@
         --cardBg:360, 100%, 100%, 1;
         --textColor:0, 0%, 0%, 1;
         --border: 208, 7%, 79%, 1;
-        --primaryColor:229, 83%, 60%, 1;
-        --secondaryColor:212, 84%, 61%, 1;
+        --primaryColor:270, 73%, 35%, 1;
+        --secondaryColor:272, 63%, 46%, 1;
         --transition:all .3s linear;
         --radius:0.3rem;
     }
@@ -37,4 +37,16 @@
     body{
         @apply bg-background text-textColor
     }
+}
+
+@layer utilities{
+   nav::-webkit-scrollbar{
+    width: .2rem;
+    background: #6c757d;
+   }
+
+   nav::-webkit-scrollbar-thumb{
+    border-radius: 2rem;
+    background: #001d3d;
+   }
 }
