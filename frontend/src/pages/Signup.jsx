@@ -5,11 +5,12 @@ import { CiLock } from "react-icons/ci";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { signupInitialValues, signupSchema } from "@/schema/AuthSchema";
 import { Form, Formik } from "formik";
-import InputField from "@/components/AuthForm/InputField";
+import InputField from "@/components/Auth/InputField";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/slices/AuthSlice";
-import { getUser, signupUser } from "@/utils/authService";
+import {  signupUser } from "@/utils/authService";
+import { getUser } from "@/utils/userService";
 import { backgroundColorGenerator } from "@/data/randomColor";
 const Signup = () => {
   const navigate = useNavigate();

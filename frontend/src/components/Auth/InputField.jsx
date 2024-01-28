@@ -3,7 +3,12 @@ import { Field, ErrorMessage } from "formik";
 const InputField = ({ name, type, placeholder, icon, touched, errors }) => {
   return (
     <div>
-      <label htmlFor={name} className={`font-semibold capitalize text-sm ${touched[name]&&errors[name]?"text-red-600":"text-textColor"}`}>
+      <label
+        htmlFor={name}
+        className={`font-semibold capitalize text-sm ${
+          touched[name] && errors[name] ? "text-red-600" : "text-textColor"
+        }`}
+      >
         {name}*
       </label>
       <div
@@ -15,13 +20,17 @@ const InputField = ({ name, type, placeholder, icon, touched, errors }) => {
         : "border-transparent ring-black "
     }`}
       >
-        <div
-          className={`text-2xl ${
-            touched[name] && errors[name] ? "text-red-600" : "text-primaryColor"
-          } font-bold`}
-        >
-          {icon}
-        </div>
+        {icon && (
+          <div
+            className={`text-2xl ${
+              touched[name] && errors[name]
+                ? "text-red-600"
+                : "text-primaryColor"
+            } font-bold`}
+          >
+            {icon}
+          </div>
+        )}
 
         <Field
           name={name}

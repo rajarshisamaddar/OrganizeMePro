@@ -7,6 +7,7 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { logoutUser } from "@/redux/slices/AuthSlice";
 import { useDispatch } from "react-redux";
+import { setAdd } from "@/redux/slices/categorySlice";
 const Sidebar = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,7 +53,6 @@ const Sidebar = ({ open, setOpen }) => {
               </div>
             </div>
             <BarContent
-              categoryData={categoryData}
               navigate={navigate}
               dropdown={dropdown}
               setDropdown={setDropdown}
@@ -60,25 +60,26 @@ const Sidebar = ({ open, setOpen }) => {
           </ul>
         </div>
       </nav>
-      
+
       <div className="absolute bottom-0 left-0 right-0 border-t p-4 border-primaryColor bg-cardBg z-[1000]">
-          <div className="flex justify-between w-full items-center">
-            <button
-              className="flex items-center gap-1 outline-dashed bg-transparent outline-primaryColor p-2 px-4
+        <div className="flex justify-between w-full items-center">
+          <button
+            className="flex items-center gap-1 outline-dashed bg-transparent outline-primaryColor p-2 px-4
                 justify-center outline-[1.5px] rounded-md text-primaryColor text-sm font-semibold 
                 transition-transition hover:bg-primaryColor hover:outline hover:text-cardBg"
-            >
-              <HiMiniPlus className="text-base" /> Add Category
-            </button>
+            onClick={() => dispatch(setAdd(true))}
+          >
+            <HiMiniPlus className="text-base" /> Add Category
+          </button>
 
-            <button
-              className="text-2xl text-red-600 hover:text-red-500 transition-transition"
-              onClick={() => dispatch(logoutUser())}
-            >
-              <IoLogOutOutline />
-            </button>
-          </div>
+          <button
+            className="text-2xl text-red-600 hover:text-red-500 transition-transition"
+            onClick={() => dispatch(logoutUser())}
+          >
+            <IoLogOutOutline />
+          </button>
         </div>
+      </div>
     </aside>
   );
 };

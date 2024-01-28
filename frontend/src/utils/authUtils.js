@@ -24,7 +24,7 @@ export const getNewAccessToken = async () => {
 };
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const axiosAuth = axios.create({
-  baseURL:BASE_URL
+  baseURL: BASE_URL,
 });
 axiosAuth.interceptors.request.use(
   async (req) => {
@@ -32,11 +32,10 @@ axiosAuth.interceptors.request.use(
     if (accessToken) {
       let currentDate = new Date();
       const decodeToken = jwtDecode(accessToken);
-      if (decodeToken.exp < currentDate.getTime()) {
+      if (decodeToken.exp * 1000 < currentDate.getTime()) {
         const tokens = await getNewAccessToken();
-        if (tokens) {
-          req.headers.Authorization = `Bearer ${tokens.accessToken}`;
-        }
+        console.log(tokens);
+        req.headers.Authorization = `Bearer ${tokens.accessToken}`;
       }
     }
 
