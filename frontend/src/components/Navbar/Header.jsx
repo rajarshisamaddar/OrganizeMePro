@@ -4,13 +4,15 @@ import { RiMenu2Fill } from "react-icons/ri";
 import { IoSearchOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { IoSettingsOutline } from "react-icons/io5";
-import avatar from "@/assets/avatar.jpg";
+import { isDarkColor } from "@/data/randomColor";
 import Themetoggle from "../Theme/Themetoggle";
 import { getAcronym } from "@/data/getAcronym";
 import { useSelector } from "react-redux";
+import UpdateUser from "../Auth/UpdateUser";
 const Header = ({ setOpen }) => {
   const [openSearch, setOpenSearch] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const [openUpdate, setOpenUpdate] = useState(false);
   return (
     <div className="w-full bg-cardBg md:fixed md:top-0 md:left-0 md:right-0 p-3 my-[.2rem] md:my-0 border border-border">
       <div className="flex justify-between w-full h-full items-center">
@@ -54,18 +56,23 @@ const Header = ({ setOpen }) => {
               text-gray-500 
               justify-center items-center md:hover:bg-primaryColor transition-transition cursor-pointer 
               md:hover:text-cardBg md:border border-border"
+              onClick={() => setOpenUpdate(true)}
             >
               <IoSettingsOutline />
             </div>
 
             <div className="flex items-center gap-2">
               <div
-                className={`h-12 w-12 sm:h-10 sm:w-10 rounded-full border border-border flex justify-center items-center`}
+                className={`h-12 w-12 sm:h-10 sm:w-10 rounded-full border border-border flex justify-center items-center ${
+                  isDarkColor(user.style.color) === true
+                    ? "text-white"
+                    : "text-black"
+                }`}
                 style={{ backgroundColor: `${user.style.color}` }}
               >
                 {getAcronym(user.fullName)}
               </div>
-              <h1 className="sm:hidden text-sm font-semibold">
+              <h1 className="sm:hidden text-sm font-semibold text-center">
                 {user.fullName.split(" ")[0]}
                 <br />
                 {user.fullName.split(" ")[1]}
@@ -74,6 +81,7 @@ const Header = ({ setOpen }) => {
           </div>
         </div>
       </div>
+      {openUpdate && <UpdateUser setOpenUpdate={setOpenUpdate} />}
     </div>
   );
 };

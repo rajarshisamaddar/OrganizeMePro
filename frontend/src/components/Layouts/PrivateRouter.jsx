@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Outlet, Navigate } from "react-router-dom";
 import Sidebar from "../Navbar/Sidebar";
 import Header from "../Navbar/Header";
-import { setUser } from "@/redux/slices/AuthSlice";
-import { getUser } from "@/utils/authService";
 import Loading from "../Loading/Loading";
 const PrivateRouter = () => {
   const { user, loading } = useSelector((state) => state.auth);

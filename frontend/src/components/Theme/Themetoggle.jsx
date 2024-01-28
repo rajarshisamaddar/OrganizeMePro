@@ -3,7 +3,7 @@ import { IoMoon } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toogleTheme } from "@/redux/slices/AuthSlice";
 import { MdSunny } from "react-icons/md";
-import { updateUserDetails } from "@/utils/authService";
+import { updateUserDetails } from "@/utils/userService";
 const Themetoggle = () => {
   const {user} = useSelector((state)=>state.auth);
   const theme = user.style.theme;

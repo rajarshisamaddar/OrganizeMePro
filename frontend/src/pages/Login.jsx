@@ -3,12 +3,13 @@ import { AiOutlineMail } from "react-icons/ai";
 import { CiLock } from "react-icons/ci";
 import { loginSchema, loginInitialValues } from "@/schema/AuthSchema";
 import { Form, Formik } from "formik";
-import InputField from "@/components/AuthForm/InputField";
+import InputField from "@/components/Auth/InputField";
 import { setUser } from "@/redux/slices/AuthSlice";
 import { CiUser } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getUser, loginUser } from "@/utils/authService";
+import {loginUser } from "@/utils/authService";
+import { getUser } from "@/utils/userService";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

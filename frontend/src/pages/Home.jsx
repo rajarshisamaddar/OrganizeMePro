@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axiosCustom from "../utils/axiosCustom";
-
+import AddTopics from "@/components/Topics/AddTopics";
+import { getCategory } from "@/utils/categoryService";
+import { useDispatch } from "react-redux";
+import { addCategory, setCategory } from "@/redux/slices/categorySlice";
 const Home = () => {
-  const [data, setData] = useState(null);
-
+  const dispatch = useDispatch();
+  const getAllCategory = async()=>{
+    const categories = await getCategory();
+    // console.log(categories);
+    if(categories){
+      dispatch(setCategory(categories));
+    }
+  }
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axiosCustom.get("/category/get-all-categories");
-      setData(result.data.categories[0]);
-    };
-    fetchData();
+    getAllCategory();
   }, []);
 
   return (
     <div>
-      <p>{data && data.title}</p>
+      <AddTopics />
+      <p></p>
     </div>
   );
 };
