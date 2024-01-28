@@ -163,30 +163,11 @@ const getNewAccessToken = AsyncErrorHandler(async (req, res, next) => {
 
 // Get current user details
 const getUserDetails = AsyncErrorHandler(async (req, res, next) => {
-  const { email } = req.params;
-
-  // Check if the email is valid
-  if (!email) {
-    const err = new CustomError(400, "Email in params is required");
-    return next(err);
-  }
-
-  // check email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (email && !emailRegex.test(email)) {
-    const err = new CustomError(400, "Invalid email format");
-    return next(err);
-  }
-
-  if (email != req.user.email) {
-    const err = new CustomError(401, "You are trying to access another user");
-    return next(err);
-  }
 
   // Check if the user exists
 
   const user = await User.findOne(
-    { email, accessToken: req.user.accessToken },
+    { email: req.user.email, accessToken: req.user.accessToken },
     {
       password: 0,
       refreshToken: 0,
