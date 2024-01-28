@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axiosCustom from "../utils/axiosCustom";
 
 const Home = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,7 +14,7 @@ const Home = () => {
 
   return (
     <div>
-      <p>{data.title}</p>
+      <p>{data && data.title}</p>
     </div>
   );
 };

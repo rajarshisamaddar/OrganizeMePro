@@ -6,8 +6,11 @@ import { RxCross2 } from "react-icons/rx";
 import { IoSettingsOutline } from "react-icons/io5";
 import avatar from "@/assets/avatar.jpg";
 import Themetoggle from "../Theme/Themetoggle";
+import { getAcronym } from "@/data/getAcronym";
+import { useSelector } from "react-redux";
 const Header = ({ setOpen }) => {
   const [openSearch, setOpenSearch] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   return (
     <div className="w-full bg-cardBg md:fixed md:top-0 md:left-0 md:right-0 p-3 my-[.2rem] md:my-0 border border-border">
       <div className="flex justify-between w-full h-full items-center">
@@ -56,15 +59,16 @@ const Header = ({ setOpen }) => {
             </div>
 
             <div className="flex items-center gap-2">
-              <img
-                src={avatar}
-                alt=""
-                className="h-12 w-12 sm:h-10 sm:w-10 rounded-full border border-border"
-              />
+              <div
+                className={`h-12 w-12 sm:h-10 sm:w-10 rounded-full border border-border flex justify-center items-center`}
+                style={{ backgroundColor: `${user.style.color}` }}
+              >
+                {getAcronym(user.fullName)}
+              </div>
               <h1 className="sm:hidden text-sm font-semibold">
-                Soumayadip
+                {user.fullName.split(" ")[0]}
                 <br />
-                Saha
+                {user.fullName.split(" ")[1]}
               </h1>
             </div>
           </div>
