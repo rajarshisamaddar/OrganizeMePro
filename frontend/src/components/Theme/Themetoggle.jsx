@@ -3,8 +3,11 @@ import { IoMoon } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toogleTheme } from "@/redux/slices/AuthSlice";
 import { MdSunny } from "react-icons/md";
+import { updateUserDetails } from "@/utils/authService";
 const Themetoggle = () => {
-  const theme = useSelector((state) => state.auth.theme);
+  const {user} = useSelector((state)=>state.auth);
+  const theme = user.style.theme;
+  const email = user.email;
   const dispatch = useDispatch();
   useEffect(() => {
     if (!theme) {
@@ -23,9 +26,16 @@ const Themetoggle = () => {
     else document.documentElement.classList.remove("dark");
   }, [theme]);
 
-  const hanleTheme = () => {
+  const hanleTheme = async() => {
     const newTheme = theme === "dark" ? "light" : "dark";
     dispatch(toogleTheme(newTheme));
+    const updateTheme = {
+      style:{
+        theme:newTheme,
+        color:user.style.color,
+      }
+    }
+    await updateUserDetails({data:updateTheme, email:email});
   };
   return (
     <div

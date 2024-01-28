@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { CiUser } from "react-icons/ci";
 import { CiLock } from "react-icons/ci";
@@ -7,30 +7,33 @@ import { signupInitialValues, signupSchema } from "@/schema/AuthSchema";
 import { Form, Formik } from "formik";
 import InputField from "@/components/AuthForm/InputField";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/slices/AuthSlice";
-import {jwtDecode} from "jwt-decode";
+import { getUser, signupUser } from "@/utils/authService";
+import { backgroundColorGenerator } from "@/data/randomColor";
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleSubmit = (values) => {
+  const {user} = useSelector((state)=>state.auth);
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
+  const handleSubmit = async (values) => {
+    const color = backgroundColorGenerator();
     const data = {
       ...values,
       style: {
         theme: "light",
-        color: "#571089",
+        color: color,
       },
     };
-    console.log(data);
-    axios
-      .post("http://localhost:8800/api/v1/user/register", data)
-      .then((response) => {
-        console.log(response);
-        dispatch(setUser(response.data))
-        navigate("/");
-      })
-      .catch((error) => console.log(error));
+    await signupUser(data);
+    const userData = await getUser();
+    console.log(userData);
+    dispatch(setUser(userData));
+    navigate("/");
   };
   return (
     <Formik

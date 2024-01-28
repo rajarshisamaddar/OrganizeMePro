@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { CiLock } from "react-icons/ci";
 import { loginSchema, loginInitialValues } from "@/schema/AuthSchema";
@@ -6,24 +6,24 @@ import { Form, Formik } from "formik";
 import InputField from "@/components/AuthForm/InputField";
 import { setUser } from "@/redux/slices/AuthSlice";
 import { CiUser } from "react-icons/ci";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { getUser, loginUser } from "@/utils/authService";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {user} = useSelector((state)=>state.auth);
+  useEffect(()=>{
+    if(user){
+      navigate("/")
+    }
+  },[user])
 
-  const handleSubmit = (values) => {
-    axios.post('http://localhost:8800/api/v1/user/login',values)
-    .then((response)=>{
-      console.log(response.data);
-      dispatch(setUser(response.data));
-      navigate("/");
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
-
+  const handleSubmit = async(values) => {
+    await loginUser(values);
+    const userData = await getUser();
+    console.log(userData);
+    dispatch(setUser(userData));
   };
   return (
     <Formik

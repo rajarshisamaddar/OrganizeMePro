@@ -1,30 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const initialState = {
-  theme:
-    localStorage.getItem("theme")&&JSON.parse(localStorage.getItem("theme")) ||
-    null,
-  user: {},
+  loading:true,
+  user: null,
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setLoading:(state, action)=>{
+      state.loading=action.payload;
+    },
     toogleTheme: (state, action) => {
-      localStorage.setItem("theme", JSON.stringify(action.payload));
-      state.theme = action.payload;
+      state.user.style.theme=action.payload;
     },
     setUser: (state, action) => {
       state.user = action.payload;
     },
     logoutUser: (state, action) => {
-      localStorage.removeItem("userData");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       localStorage.removeItem("theme");
-      (state.user = null), (state.theme = null);
+      (state.user = null);
     },
   },
 });
 
-export const { toogleTheme, setUser, logoutUser } = authSlice.actions;
+export const { toogleTheme, setUser, logoutUser, setLoading } = authSlice.actions;
 export default authSlice.reducer;
