@@ -20,8 +20,8 @@ router.route("/login").post(loginUser);
 // ALPHA: get => new access token and refresh token using refresh token
 router.route("/refresh-tokens").post(getNewAccessToken);
 
-// ALPHA: get => get user details using email
-router.route("/me/:email").get(verifyJWT, getUserDetails);
+// ALPHA: get => get user details using jwt token
+router.route("/me").get(verifyJWT, getUserDetails);
 
 // ALPHA: patch => update user details using email
 router.route("/me/:email").patch(verifyJWT, updateUserDetails);
