@@ -16,19 +16,11 @@ const axiosCustom = axios.create({
 let refreshPromise = null;
 
 axiosCustom.interceptors.request.use(async (req) => {
-  if (!accessToken) {
-    accessToken = localStorage.getItem("accessToken");
-    req.headers.Authorization = accessToken ? `Bearer ${accessToken}` : "";
-  }
+  const refreshToken = localStorage.getItem("refreshToken");
+  const decodedToken = jwtDecode(accessToken);
+  const isExpiringSoon = dayjs().add(10, "second").unix() > decodedToken.exp;
 
-  const decodedToken = accessToken ? jwtDecode(accessToken) : null;
-  const isExpired = decodedToken
-    ? dayjs.unix(decodedToken.exp).diff(dayjs()) < 1
-    : false;
-  if (!isExpired) return req;
-
-  if (!refreshPromise) {
-    const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshPromise && isExpiringSoon) {
     refreshPromise = axios
       .post(`${BASE_URL}/user/refresh-tokens`, {
         refreshToken: refreshToken,
@@ -49,10 +41,11 @@ axiosCustom.interceptors.request.use(async (req) => {
       });
   }
 
-  const newAccessToken = await refreshPromise;
-  accessToken = newAccessToken; // Update the accessToken variable
-
-  req.headers.Authorization = `Bearer ${newAccessToken}`;
+  if (refreshPromise) {
+    const newAccessToken = await refreshPromise;
+    accessToken = newAccessToken; // Update the accessToken variable
+    req.headers.Authorization = `Bearer ${newAccessToken}`;
+  }
 
   return req;
 });
