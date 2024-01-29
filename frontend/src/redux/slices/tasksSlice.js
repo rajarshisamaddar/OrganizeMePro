@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
-    taskToogle:false,
     allTasks:[],
 }
 
@@ -8,14 +7,14 @@ export const tasksSlice = createSlice({
     name:"tasks",
     initialState,
     reducers:{
-        toogleAdd:(state, action)=>{
-            state.taskToogle=action.payload;
-        },
-        setAllTasks:(state, action)=>{
+        setTasks:(state, action)=>{
             state.allTasks=action.payload;
-        }
+        },
+        addOneTask:(state, action)=>{
+            state.allTasks=[...state.allTasks, action.payload]
+        },
     }
 });
 
-export const {toogleAdd} = tasksSlice.actions;
+export const {setTasks, addOneTask} = tasksSlice.actions;
 export default tasksSlice.reducer;
