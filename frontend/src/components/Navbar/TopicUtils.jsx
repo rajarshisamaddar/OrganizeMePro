@@ -1,33 +1,32 @@
-import React from "react";
-import { IoMdShareAlt } from "react-icons/io";
+import React, {useState} from "react";
+import { FaShareAlt } from "react-icons/fa";
 import { MdEditDocument } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-const TopicUtils = () => {
+import AddCollaborator from "../Topics/AddCollaborator";
+import UpdateCategories from "../Topics/UpdateCategories";
+const TopicUtils = ({item}) => {
+  const [editMember, setEditMember] = useState(false);
+  const [editCategory, setEditCategory] = useState(false);
   return (
-    <div
-      className="absolute bg-cardBg my-2 right-[-.5rem] top-[110%] z-[100] rounded-borderRadius p-2 
-    text-textColor shadow-lg shadow-indigo-500/20 border border-border"
-    >
-      <div className="flex flex-col gap-2 justify-center items-center">
-        <div className="flex items-center w-full gap-1 text-sm border border-border p-2 px-3  rounded-borderRadius">
-          <p>Share</p>
-          <p className="text-lg text-blue-600">
-            <IoMdShareAlt />
-          </p>
-        </div>
-        <div className="flex items-center gap-1 text-sm border border-border p-2 px-3  rounded-borderRadius">
-          <p>Update</p>
-          <p className="text-lg text-green-600">
-            <MdEditDocument />
-          </p>
-        </div>
-        <div className="flex items-center gap-1 text-sm border border-border p-2 px-3 rounded-borderRadius">
-          <p>Delete</p>
-          <p className="text-lg text-red-600">
-            <MdDelete />
-          </p>
-        </div>
+    <div className="w-full rounded-md bg-background h-fit my-2 p-4">
+      <div className="flex items-center justify-between gap-3 text-xl">
+        <button className="text-indigo-600" onClick={()=>setEditMember(true)}>
+          <FaShareAlt />
+        </button>
+        <button className="text-green-500" onClick={()=>setEditCategory(true)}>
+          <MdEditDocument />
+        </button>
+        <button className="text-red-500">
+          <MdDelete />
+        </button>
       </div>
+      {
+        editMember && <AddCollaborator setEditMember={setEditMember} category={item} />
+      }
+
+      {
+        editCategory && <UpdateCategories setEditCategory={setEditCategory} category={item} />
+      }
     </div>
   );
 };

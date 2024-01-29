@@ -20,15 +20,20 @@ export const authSlice = createSlice({
     updateUser: (state, action) => {
       state.user = { ...state.user, ...action.payload };
     },
+
     logoutUser: (state, action) => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-      localStorage.removeItem("theme");
       state.user = null;
     },
   },
 });
 
-export const { toogleTheme, setUser, logoutUser, setLoading, updateUser } =
-  authSlice.actions;
+export const {
+  toogleTheme,
+  setUser,
+  logoutUser,
+  setLoading,
+  updateUser,
+} = authSlice.actions;
 export default authSlice.reducer;

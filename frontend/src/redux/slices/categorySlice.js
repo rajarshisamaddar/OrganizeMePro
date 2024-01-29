@@ -12,14 +12,22 @@ export const categorySlice = createSlice({
       state.add = action.payload;
     },
 
-    setCategory:(state, action)=>{
-        state.categories=action.payload;
+    setCategory: (state, action) => {
+      state.categories = action.payload;
+    },
+    updateCategorySlice: (state, action) => {
+      const upadteCategory = state.categories.map((item) =>
+        item._id === action.payload._id ? {...item, ...action.payload} : item
+      );
+
+      state.categories=upadteCategory;
     },
     addCategory: (state, action) => {
-        state.categories=[...state.categories, action.payload]
+      state.categories = [...state.categories, action.payload];
     },
   },
 });
 
-export const { addCategory, setAdd, setCategory } = categorySlice.actions;
+export const { addCategory, setAdd, setCategory, updateCategorySlice } =
+  categorySlice.actions;
 export default categorySlice.reducer;

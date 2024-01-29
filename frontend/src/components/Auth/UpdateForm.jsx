@@ -15,8 +15,13 @@ const UpdateForm = ({ setOpenUpdate }) => {
     email: user.email,
   };
   const handleSubmit = async (values) => {
-    await updateUserDetails({ data: values, email: user.email });
-    dispatch(updateUser(values));
+    const updatedDetails = await updateUserDetails({
+      data: values,
+      email: user.email,
+    });
+    if (updatedDetails) {
+      dispatch(updateUser(updatedDetails));
+    }
     setOpenUpdate(false);
   };
   return (
@@ -29,10 +34,16 @@ const UpdateForm = ({ setOpenUpdate }) => {
       {({ errors, touched }) => (
         <Form className="flex flex-col gap-4 w-full h-full text-cardBg">
           <div className=" sm:w-full  w-[90%] m-auto flex flex-col gap-1">
-            <label htmlFor="fullName"className=
-            {`font-semibold capitalize text-sm ${
-              touched['fullName'] && errors['fullName'] ? "text-red-600" : "text-textColor"
-            }`}>Full Name*</label>
+            <label
+              htmlFor="fullName"
+              className={`font-semibold capitalize text-sm ${
+                touched["fullName"] && errors["fullName"]
+                  ? "text-red-600"
+                  : "text-textColor"
+              }`}
+            >
+              Full Name*
+            </label>
             <div className="bg-background p-2 rounded-md w-full relative text-textColor">
               <FaUserEdit className="absolute top-1/2 -translate-y-1/2 right-2 text-primaryColor text-lg" />
               <Field
@@ -50,10 +61,16 @@ const UpdateForm = ({ setOpenUpdate }) => {
           </div>
 
           <div className=" sm:w-full  w-[90%] m-auto flex flex-col gap-1">
-            <label htmlFor="username"className=
-            {`font-semibold capitalize text-sm ${
-              touched['username'] && errors['username'] ? "text-red-600" : "text-textColor"
-            }`}>User Name*</label>
+            <label
+              htmlFor="username"
+              className={`font-semibold capitalize text-sm ${
+                touched["username"] && errors["username"]
+                  ? "text-red-600"
+                  : "text-textColor"
+              }`}
+            >
+              User Name*
+            </label>
             <div className="bg-background p-2 rounded-md w-full relative text-textColor">
               <FaUserEdit className="absolute top-1/2 -translate-y-1/2 right-2 text-primaryColor text-lg" />
               <Field
@@ -71,10 +88,16 @@ const UpdateForm = ({ setOpenUpdate }) => {
           </div>
 
           <div className=" sm:w-full  w-[90%] m-auto flex flex-col gap-1">
-            <label htmlFor="email"className=
-            {`font-semibold capitalize text-sm ${
-              touched['email'] && errors['email'] ? "text-red-600" : "text-textColor"
-            }`}>Email*</label>
+            <label
+              htmlFor="email"
+              className={`font-semibold capitalize text-sm ${
+                touched["email"] && errors["email"]
+                  ? "text-red-600"
+                  : "text-textColor"
+              }`}
+            >
+              Email*
+            </label>
             <div className="bg-background p-2 rounded-md w-full relative text-textColor">
               <FaUserEdit className="absolute top-1/2 -translate-y-1/2 right-2 text-primaryColor text-lg" />
               <Field
@@ -90,7 +113,6 @@ const UpdateForm = ({ setOpenUpdate }) => {
               component="p"
             />
           </div>
-
 
           <button
             type="submit"

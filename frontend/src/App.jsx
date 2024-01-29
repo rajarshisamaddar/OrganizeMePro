@@ -10,27 +10,7 @@ import { useEffect } from "react";
 import { getUser } from "@/utils/userService";
 import { setLoading, setUser } from "@/redux/slices/AuthSlice";
 function App() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const userDetails = async () => {
-    dispatch(setLoading(true));
-    try {
-      const userData = await getUser();
-      if (userData) {
-        dispatch(setUser(userData));
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
-  useEffect(() => {
-    if (location.pathname !== "/signup" || location.pathname !== "/login") {
-      userDetails();
-    }
-    navigate("/");
-  }, []);
+
   return (
     <Routes>
       {/* Private Routes */}
