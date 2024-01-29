@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  add: false,
+  toogleCategory: false,
   categories: [],
 };
 
@@ -9,7 +9,7 @@ export const categorySlice = createSlice({
   initialState,
   reducers: {
     setAdd: (state, action) => {
-      state.add = action.payload;
+      state.toogleCategory = action.payload;
     },
 
     setCategory: (state, action) => {

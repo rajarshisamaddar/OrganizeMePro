@@ -7,7 +7,7 @@ import { categoryInitialValue, categorySchema } from "@/schema/CategorySchema";
 import { addNewCategory } from "@/utils/categoryService";
 import SharedForm from "./SharedForm";
 const AddTopics = () => {
-  const { add } = useSelector((state) => state.category);
+  const { toogleCategory } = useSelector((state) => state.category);
   const dispatch = useDispatch();
   const handleSubmit = async (values) => {
     const data = {
@@ -21,10 +21,10 @@ const AddTopics = () => {
     dispatch(setAdd(false));
   };
   return (
-    add && (
+    toogleCategory && (
       <CrudLayout onClick={() => dispatch(setAdd(false))}>
         <div className="w-full h-full flex flex-col items-center">
-          <div className="text-xl">Add Topic</div>
+          <div className="text-xl">toogleCategory Topic</div>
           <SharedForm
             initialValue={categoryInitialValue}
             handleSubmit={handleSubmit}

@@ -9,6 +9,7 @@ export const loginUser = async (data) => {
     const refreshToken = response.data.tokens.refreshToken;
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
+    window.location.href('/');
   } catch (error) {
     console.log(error);
   }
