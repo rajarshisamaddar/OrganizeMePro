@@ -3,7 +3,7 @@ import { FaShareAlt } from "react-icons/fa";
 import { MdEditDocument } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import AddCollaborator from "../Topics/AddCollaborator";
-import UpdateCategories from "../Topics/UpdateCategories";
+import UpdateTopics from "../Topics/UpdateTopics";
 const TopicUtils = ({item}) => {
   const [editMember, setEditMember] = useState(false);
   const [editCategory, setEditCategory] = useState(false);
@@ -25,7 +25,7 @@ const TopicUtils = ({item}) => {
       }
 
       {
-        editCategory && <UpdateCategories setEditCategory={setEditCategory} category={item} />
+        editCategory && <UpdateTopics setEditCategory={setEditCategory} category={item} />
       }
     </div>
   );
