@@ -1,52 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*{
-    font-family: 'Nunito', sans-serif;
-    margin: 0;
-    padding: 0;
-    scroll-behavior: smooth;
+* {
+  font-family: "Nunito", sans-serif;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
 }
 
+@layer base {
+  :root {
+    --background: 0, 0%, 93%, 1;
+    --cardBg: 360, 100%, 100%, 1;
+    --textColor: 0, 0%, 0%, 1;
+    --border: 208, 7%, 79%, 1;
+    --primaryColor: 270, 73%, 35%, 1;
+    --secondaryColor: 272, 63%, 46%, 1;
+    --transition: all 0.3s linear;
+    --radius: 0.3rem;
+  }
 
-@layer base{
-    :root{
-        --background:0, 0%, 93%, 1;
-        --cardBg:360, 100%, 100%, 1;
-        --textColor:0, 0%, 0%, 1;
-        --border: 208, 7%, 79%, 1;
-        --primaryColor:270, 73%, 35%, 1;
-        --secondaryColor:272, 63%, 46%, 1;
-        --transition:all .3s linear;
-        --radius:0.3rem;
-    }
-
-    .dark{
-        --background:0, 0%, 7%, 1;
-        --cardBg:0, 0%, 0%, 1;
-        --textColor:360, 100%, 100%, 1;
-        --border:208, 7%, 14%, 1;
-        --primaryColor:87, 100%, 49%, 1;
-        --secondaryColor:85, 97%, 62%, 1;
-    }
+  .dark {
+    --background: 0, 0%, 7%, 1;
+    --cardBg: 0, 0%, 0%, 1;
+    --textColor: 360, 100%, 100%, 1;
+    --border: 208, 7%, 14%, 1;
+    --primaryColor: 87, 100%, 49%, 1;
+    --secondaryColor: 85, 97%, 62%, 1;
+  }
 }
 
-@layer base{
-    body{
-        @apply bg-background text-textColor
-    }
-}
+@layer base {
+  body {
+    @apply bg-background text-textColor;
+  }
 
-@layer utilities{
-   nav::-webkit-scrollbar{
-    width: .2rem;
+  ::-webkit-scrollbar {
+    width: 0.4rem;
     background: #6c757d;
-   }
+  }
 
-   nav::-webkit-scrollbar-thumb{
+  ::-webkit-scrollbar-thumb {
     border-radius: 2rem;
     background: #001d3d;
-   }
+  }
+}
+
+@layer utilities {
+  .custom-scroll::-webkit-scrollbar {
+    width: 0.2rem;
+    background: #6c757d;
+  }
+  .custom-scroll::-webkit-scrollbar-thumb {
+    border-radius: 2rem;
+    background: #001d3d;
+  }
+  .custom-scroll::-webkit-scrollbar-thumb-horizontal {
+    border-radius: 2rem;
+    background: #001d3d;
+  }
+  .custom-scroll::-webkit-scrollbar-track-horizontal {
+    width: .2rem;
+    background: #ccc;
+  }
+  .custom-scroll{
+    overflow-x:hidden;
+  }
+  .overflow-wrap-break-word {
+    overflow-wrap: break-word;
+  }
 }
