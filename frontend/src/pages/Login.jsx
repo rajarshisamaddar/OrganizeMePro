@@ -14,13 +14,15 @@ import { getCategory } from "@/utils/categoryService";
 import { setCategory } from "@/redux/slices/categorySlice";
 const Login = () => {
   const dispatch = useDispatch();
+  
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user]);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/");
+  //   }
+  // }, [user]);
 
   const handleSubmit = async (values) => {
     loginUser(values).then(async () => {
@@ -29,7 +31,7 @@ const Login = () => {
       const categories = await getCategory();
       if (categories) {
         dispatch(setCategory(categories));
-      }     
+      }
     });
   };
   return (
