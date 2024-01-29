@@ -74,7 +74,11 @@ const Sidebar = ({ open, setOpen }) => {
 
           <button
             className="text-2xl text-red-600 hover:text-red-500 transition-transition"
-            onClick={() => dispatch(logoutUser())}
+            onClick={() => {
+              dispatch(logoutUser());
+              navigate('/login');
+              window.location.reload();
+            }}
           >
             <IoLogOutOutline />
           </button>

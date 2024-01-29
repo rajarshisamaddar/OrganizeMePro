@@ -5,7 +5,7 @@ import { toogleTheme } from "@/redux/slices/AuthSlice";
 import { MdSunny } from "react-icons/md";
 import { updateUserDetails } from "@/utils/userService";
 const Themetoggle = () => {
-  const {user} = useSelector((state)=>state.auth);
+  const { user } = useSelector((state) => state.auth);
   const theme = user.style.theme;
   const email = user.email;
   const dispatch = useDispatch();
@@ -26,16 +26,21 @@ const Themetoggle = () => {
     else document.documentElement.classList.remove("dark");
   }, [theme]);
 
-  const hanleTheme = async() => {
+  const hanleTheme = async () => {
     const newTheme = theme === "dark" ? "light" : "dark";
-    dispatch(toogleTheme(newTheme));
     const updateTheme = {
-      style:{
-        theme:newTheme,
-        color:user.style.color,
-      }
+      style: {
+        theme: newTheme,
+        color: user.style.color,
+      },
+    };
+    const newUpdatedTheme = await updateUserDetails({
+      data: updateTheme,
+      email: email,
+    });
+    if (newUpdatedTheme) {
+      dispatch(toogleTheme(newUpdatedTheme.style.theme));
     }
-    await updateUserDetails({data:updateTheme, email:email});
   };
   return (
     <div

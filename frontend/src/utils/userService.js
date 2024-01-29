@@ -15,7 +15,9 @@ export const getUser = async () => {
   export const updateUserDetails = async ({data, email}) => {
     try {
       const response = await axiosCustom.patch(`/user/me/${email}`, data);
-      console.log(response)
+      if(response.statusText==="OK"){
+        return response.data;
+      }
     } catch (error) {
       console.log(error)
     }

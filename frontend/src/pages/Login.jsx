@@ -8,23 +8,29 @@ import { setUser } from "@/redux/slices/AuthSlice";
 import { CiUser } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {loginUser } from "@/utils/authService";
+import { loginUser } from "@/utils/authService";
 import { getUser } from "@/utils/userService";
+import { getCategory } from "@/utils/categoryService";
+import { setCategory } from "@/redux/slices/categorySlice";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {user} = useSelector((state)=>state.auth);
-  useEffect(()=>{
-    if(user){
-      navigate("/")
+  const { user } = useSelector((state) => state.auth);
+  useEffect(() => {
+    if (user) {
+      navigate("/");
     }
-  },[user])
+  }, [user]);
 
-  const handleSubmit = async(values) => {
-    await loginUser(values);
-    const userData = await getUser();
-    console.log(userData);
-    dispatch(setUser(userData));
+  const handleSubmit = async (values) => {
+    loginUser(values).then(async () => {
+      const userData = await getUser();
+      dispatch(setUser(userData));
+      const categories = await getCategory();
+      if (categories) {
+        dispatch(setCategory(categories));
+      }     
+    });
   };
   return (
     <Formik
