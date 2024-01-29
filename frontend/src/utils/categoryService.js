@@ -36,7 +36,7 @@ export const addCollaborators = async (data) => {
 export const updateCategory = async ({ data, id }) => {
   try {
     const response = await axiosCustom.patch(`/category/update/${id}`, data);
-    if(response.statusText==='OK'){
+    if (response.statusText === "OK") {
       return response.data.category;
     }
   } catch (error) {
