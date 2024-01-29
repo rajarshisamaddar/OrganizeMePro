@@ -11,6 +11,7 @@ const PrivateRouter = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const userDetails = async () => {
     dispatch(setLoading(true));
     try {
@@ -24,13 +25,16 @@ const PrivateRouter = () => {
       dispatch(setLoading(false));
     }
   };
+
   useEffect(() => {
-    userDetails();
+    if (localStorage.getItem("accessToken")) userDetails();
     navigate("/");
-  }, []);
+  }, [localStorage.getItem("accessToken")]);
+
   if (loading) {
     return <Loading />;
   }
+
   return (
     <div>
       {user ? (
