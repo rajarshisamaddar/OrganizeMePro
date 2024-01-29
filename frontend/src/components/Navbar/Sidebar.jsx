@@ -11,7 +11,6 @@ import { setAdd } from "@/redux/slices/categorySlice";
 const Sidebar = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [dropdown, setDropdown] = useState(false);
   return (
     <aside
       className={`h-screen overflow-y-auto bg-cardBg w-[300px] ${
@@ -54,8 +53,7 @@ const Sidebar = ({ open, setOpen }) => {
             </div>
             <BarContent
               navigate={navigate}
-              dropdown={dropdown}
-              setDropdown={setDropdown}
+              setOpen={setOpen}
             />
           </ul>
         </div>

@@ -5,7 +5,7 @@ import TopicUtils from "./TopicUtils";
 import { useSelector } from "react-redux";
 import { isDarkColor } from "@/data/randomColor";
 import { IoIosArrowUp } from "react-icons/io";
-const BarContent = ({ navigate }) => {
+const BarContent = ({ navigate, setOpen }) => {
   const { categories } = useSelector((state) => state.category);
   const [showItem, setShowItem] = useState("");
   return categories.map((item) => (
@@ -24,6 +24,7 @@ const BarContent = ({ navigate }) => {
             className="flex w-full items-center gap-2 relative"
             onClick={() => {
               navigate(`/${item._id}`);
+              setOpen(false)
             }}
           >
             <p
