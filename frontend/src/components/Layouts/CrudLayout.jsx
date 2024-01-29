@@ -2,7 +2,7 @@ import React from "react";
 import { RxCross2 } from "react-icons/rx";
 const CrudLayout = ({ children, onClick, isTask }) => {
   return (
-    <div className="h-screen w-full fixed top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.3)] z-[100000]">
+    <div className="h-screen w-full fixed top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.5)] z-[100000]">
       <div className="flex h-full w-full justify-center items-center text-5xl text-white">
         <div
           className={`h-fit ${

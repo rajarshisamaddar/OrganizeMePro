@@ -13,14 +13,7 @@ import {  signupUser } from "@/utils/authService";
 import { getUser } from "@/utils/userService";
 import { backgroundColorGenerator } from "@/data/randomColor";
 const Signup = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {user} = useSelector((state)=>state.auth);
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user]);
   const handleSubmit = async (values) => {
     const color = backgroundColorGenerator();
     const data = {
@@ -34,7 +27,6 @@ const Signup = () => {
     const userData = await getUser();
     console.log(userData);
     dispatch(setUser(userData));
-    navigate("/");
   };
   return (
     <Formik

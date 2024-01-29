@@ -3,7 +3,7 @@ import * as yup from 'yup';
 export const taskInitialValues = {
     title:"",
     description:"",
-    dueDate:""
+    dueDate:new Date()
 }
 
 export const taskSchema = yup.object().shape({

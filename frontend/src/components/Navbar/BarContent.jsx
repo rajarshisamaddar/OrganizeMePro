@@ -5,6 +5,7 @@ import TopicUtils from "./TopicUtils";
 import { useSelector } from "react-redux";
 import { isDarkColor } from "@/data/randomColor";
 import { IoIosArrowUp } from "react-icons/io";
+import { getLocation } from "@/data/location";
 const BarContent = ({ navigate, setOpen }) => {
   const { categories } = useSelector((state) => state.category);
   const [showItem, setShowItem] = useState("");
@@ -14,7 +15,7 @@ const BarContent = ({ navigate, setOpen }) => {
         className={`p-2 px-4 w-full transition-transition  border border-border 
         rounded-borderRadius text-sm font-semibold cursor-pointer 
         hover:bg-primaryColor hover:text-white dark:hover:text-black ${
-          location.pathname === "/" + item._id
+          getLocation(location.pathname) === "/" + item._id
             ? "bg-[#5a189a] text-white dark:bg-[#89fa00] dark:text-black"
             : "bg-transparent"
         }`}

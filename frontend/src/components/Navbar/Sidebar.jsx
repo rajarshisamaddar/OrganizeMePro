@@ -25,7 +25,7 @@ const Sidebar = ({ open, setOpen }) => {
       >
         <RxCross2 />
       </div>
-      <nav className="h-[90%] overflow-y-auto p-3">
+      <nav className="h-[90%] overflow-y-auto p-3 custom-scroll">
         <div className="gap-4 flex flex-col justify-center">
           <h1 className="my-2 text-xl font-semibold">Topics</h1>
           <ul className="flex flex-col gap-4">
