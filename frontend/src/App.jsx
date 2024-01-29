@@ -9,14 +9,34 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getUser } from "@/utils/userService";
 import { setLoading, setUser } from "@/redux/slices/AuthSlice";
+import AddTaskPage from "./pages/AddTaskPage";
 function App() {
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userDetails = async () => {
+    dispatch(setLoading(true));
+    try {
+      const userData = await getUser();
+      if (userData) {
+        dispatch(setUser(userData));
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+  useEffect(() => {
+    userDetails();
+  }, []);
   return (
     <Routes>
       {/* Private Routes */}
       <Route element={<PrivateRouter />}>
         <Route index element={<Home />} />
         <Route path="/:id" element={<Category />} />
+        <Route path="addTask/:id" element={<AddTaskPage />} />
       </Route>
 
       <Route element={<AuthLayout />}>
