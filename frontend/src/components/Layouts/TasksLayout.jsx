@@ -3,24 +3,32 @@ import { useState, useEffect } from "react";
 import AddTopics from "@/components/Topics/AddTopics";
 import { getAllTasks } from "@/utils/tasksService";
 import { useDispatch, useSelector } from "react-redux";
-import { setTasks } from "@/redux/slices/tasksSlice";
+import { setLayout, setTasks } from "@/redux/slices/tasksSlice";
 import { IoGrid } from "react-icons/io5";
 import { FaThList } from "react-icons/fa";
 import MarkDownEditor from "@/components/Tasks/MarkDownEditor";
 import { taskStatus } from "@/data/taskStatus";
 const TasksLayout = ({
-  name,
+  category,
   children,
   currentStatus,
   setCurrentStatus,
-  gridView,
-  setGridView,
+  hasMember,
 }) => {
+  const dispatch = useDispatch();
+  const {layout} = useSelector((state)=>state.tasks);
   return (
     <div className="mt-1 md:mt-[4.3rem] mb-8 transition-transition">
       <div className="flex flex-col justify-center gap-3">
         <div className="bg-cardBg border border-border px-4 pt-4 flex flex-col justify-center gap-8">
-          <h1 className="text-xl font-semibold">{name}</h1>
+          <div className="flex w-full justify-between items-center">
+            <h1 className="text-xl font-semibold">{category.title}</h1>
+            {/* {
+              hasMember && <div>
+                hello
+              </div>
+            } */}
+          </div>
           <div className="flex w-full justify-between items-center sm:flex-col sm:gap-2">
             <ul className="flex items-center gap-2 sm:justify-center text-sm font-semibold">
               {taskStatus.map((status) => (
@@ -45,14 +53,14 @@ const TasksLayout = ({
             <div className="flex  items-center gap-5 text-xl sm:hidden pb-3 cursor-pointer font-bold">
               <p>
                 <IoGrid
-                  onClick={() => setGridView(true)}
-                  className={`${gridView && "text-[#f20089]"}`}
+                  onClick={() => dispatch(setLayout("grid"))}
+                  className={`${layout==="grid" && "text-[#f20089]"}`}
                 />
               </p>
               <p>
                 <FaThList
-                  onClick={() => setGridView(false)}
-                  className={`${!gridView && "text-[#f20089]"}`}
+                  onClick={() => dispatch(setLayout("list"))}
+                  className={`${layout==="list" && "text-[#f20089]"}`}
                 />
               </p>
             </div>

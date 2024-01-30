@@ -18,13 +18,14 @@ const AddTasks = ({ categoryId }) => {
     navigate(`/${categoryId}`);
   };
   return (
-    <div className="h-full w-full md:w-[97%] m-auto mt-3 md:mt-20 p-4 sm:p-2 bg-cardBg mb-8 rounded-md">
+    <div className="h-full w-full md:w-[99%] m-auto mt-1 md:mt-[4.3rem] p-4 sm:p-2 bg-cardBg mb-8 border border-border">
       <div className="h-fit flex flex-col justify-center items-center gap-3">
-        <h1 className="text-xl font-semibold">Add Tasks</h1>
+        <h1 className="text-xl font-semibold">Add Task</h1>
         <Shared
           initialValues={taskInitialValues}
           validationSchema={taskSchema}
           handleSubmit={handleSubmit}
+          type="Add"
         />
       </div>
     </div>

@@ -11,6 +11,8 @@ import { getUser } from "@/utils/userService";
 import { setLoading, setUser } from "@/redux/slices/AuthSlice";
 import AddTaskPage from "./pages/AddTaskPage";
 import Tasks from "./pages/Tasks";
+import EditTask from "./pages/EditTask";
+import { Toaster } from "react-hot-toast";
 function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -29,23 +31,30 @@ function App() {
     userDetails();
   }, []);
   return (
-    <Routes>
-      {/* Private Routes */}
-      <Route element={<PrivateRouter />}>
-        <Route index element={<Home />} />
-        <Route path="/:id" element={<Category />} />
-        <Route path="addTask/:id" element={<AddTaskPage />} />
-        <Route path="viewTask/:id" element={<Tasks />} />
-      </Route>
+    <>
+      <Routes>
+        {/* Private Routes */}
+        <Route element={<PrivateRouter />}>
+          <Route index element={<Home />} />
+          <Route path="/:id" element={<Category />} />
+          <Route path="addTask/:id" element={<AddTaskPage />} />
+          <Route path="viewTask/:id" element={<Tasks />} />
+          <Route path="editTask/:id" element={<EditTask />} />
+        </Route>
 
-      <Route element={<AuthLayout />}>
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-        <Route
-          path="/signup"
-          element={user ? <Navigate to="/" /> : <Signup />}
-        />
-      </Route>
-    </Routes>
+        <Route element={<AuthLayout />}>
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/signup"
+            element={user ? <Navigate to="/" /> : <Signup />}
+          />
+        </Route>
+      </Routes>
+      <Toaster />
+    </>
   );
 }
 

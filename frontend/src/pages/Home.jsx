@@ -9,8 +9,7 @@ import ListView from "@/components/shared/ListView";
 const Home = () => {
   const dispatch = useDispatch();
   const [currentStatus, setCurrentStatus] = useState("pending");
-  const [gridView, setGridView] = useState(true);
-  const { allTasks } = useSelector((state) => state.tasks);
+  const { allTasks, layout } = useSelector((state) => state.tasks);
   useEffect(() => {
     const getTasks = async () => {
       const allTaskGet = await getAllTasks();
@@ -21,20 +20,19 @@ const Home = () => {
     getTasks();
   }, []);
   return (
-    <TasksLayout
-      name="All Tasks"
-      currentStatus={currentStatus}
-      setCurrentStatus={setCurrentStatus}
-      gridView={gridView}
-      setGridView={setGridView}
-    >
-      <AddTopics />
-      {gridView ? (
-        <GridView allTasks={allTasks} currentStatus={currentStatus} />
-      ) : (
-        <ListView allTasks={allTasks} currentStatus={currentStatus} />
-      )}
-    </TasksLayout>
+    <>
+      <TasksLayout
+        category={{ title: "All Tasks" }}
+        currentStatus={currentStatus}
+        setCurrentStatus={setCurrentStatus}
+      >
+        {layout === "grid" ? (
+          <GridView allTasks={allTasks} currentStatus={currentStatus} />
+        ) : (
+          <ListView allTasks={allTasks} currentStatus={currentStatus} />
+        )}
+      </TasksLayout>
+    </>
   );
 };
 

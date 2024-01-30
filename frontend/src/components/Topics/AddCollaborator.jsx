@@ -8,6 +8,7 @@ import { teamInitialValue, teamSchema } from "@/schema/CategorySchema";
 import { addCollaborators } from "@/utils/categoryService";
 import { useDispatch } from "react-redux";
 import { updateCategorySlice } from "@/redux/slices/categorySlice";
+import toast from "react-hot-toast";
 const AddCollaborator = ({ setEditMember, category }) => {
   const dispatch = useDispatch();
   const handleSubmit = async (values) => {
@@ -17,6 +18,7 @@ const AddCollaborator = ({ setEditMember, category }) => {
     };
     const member = await addCollaborators(data);
     dispatch(updateCategorySlice(member.category));
+    toast.success("Member added Successfully");
     setEditMember(false);
   };
   return (

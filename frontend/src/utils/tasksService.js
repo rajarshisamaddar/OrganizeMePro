@@ -32,3 +32,25 @@ export const getAllTasks = async () => {
     console.log(error);
   }
 };
+
+export const getTask = async (id) => {
+  try {
+    const response = await axiosCustom.get(`/task/get/${id}`);
+    if(response.statusText==='OK'){
+      return response.data.task;
+    }
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+export const updateTask = async({id, data})=>{
+  try {
+    const response = await axiosCustom.patch(`/task/update/${id}`, data);
+    if(response.status===201){
+      return response.data.data;
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -24,7 +24,7 @@ const AddTopics = () => {
     toogleCategory && (
       <CrudLayout onClick={() => dispatch(setAdd(false))}>
         <div className="w-full h-full flex flex-col items-center">
-          <div className="text-xl">toogleCategory Topic</div>
+          <div className="text-xl">Topic</div>
           <SharedForm
             initialValue={categoryInitialValue}
             handleSubmit={handleSubmit}
