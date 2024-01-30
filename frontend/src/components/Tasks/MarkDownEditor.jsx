@@ -24,6 +24,7 @@ const MarkDownEditor = ({markdown}) => {
           );
         },
       }}
+      className="text-sm"
     >
       {markdown}
     </Markdown>
