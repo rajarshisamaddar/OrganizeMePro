@@ -139,4 +139,123 @@ const getTasksByCategory = AsyncErrorHandler(async (req, res) => {
   });
 });
 
-export { createTask, getAllTasks, getTasksByCategory };
+// get tasks details by id
+
+const getTaskById = AsyncErrorHandler(async (req, res) => {
+  const taskId = req.params.taskId;
+
+  // check if params is empty
+  if (!taskId) {
+    throw new CustomError(400, "Task id is required!");
+  }
+
+  // check if task exists
+  const task = await Task.findOne({
+    _id: taskId,
+  }).populate("category");
+
+  if (!task) {
+    throw new CustomError(400, "Task does not exist!");
+  }
+
+  // check if user has permission to get this task
+
+  const permission =
+    task.user.equals(req.user._id) ||
+    task.category.user.equals(req.user._id) ||
+    task.category.collaborators.includes(req.user._id);
+
+  if (!permission) {
+    throw new CustomError(403, "You do not have permission to get this task!");
+  }
+
+  res.status(200).json({
+    status: "success",
+    statusCode: 201,
+    message: "Task fetched successfully",
+    task: task,
+  });
+});
+
+// update task details by id
+
+const updateTaskById = AsyncErrorHandler(async (req, res) => {
+  const taskId = req.params.taskId;
+
+  // check if params is empty
+  if (!taskId) {
+    throw new CustomError(400, "Task id is required!");
+  }
+
+  // check if task exists
+  const task = await Task.findOne({
+    _id: taskId,
+  }).populate("category");
+
+  if (!task) {
+    throw new CustomError(400, "Task does not exist!");
+  }
+
+  // check if user has permission to update this task
+
+  const permission =
+    task.user.equals(req.user._id) ||
+    task.category.user.equals(req.user._id) ||
+    task.category.collaborators.includes(req.user._id);
+
+  if (!permission) {
+    throw new CustomError(
+      403,
+      "You do not have permission to update this task!"
+    );
+  }
+
+  // update task
+  const { title, description, status, assignedTo, dueDate } = req.body;
+
+  // check if body is empty
+  if (Object.keys(req.body).length === 0) {
+    throw new CustomError(
+      400,
+      "At least one field is required to update the task!"
+    );
+  }
+
+  // check if assignedTo exists
+  if (assignedTo) {
+    const assignedUser = await User.findById(assignedTo);
+    if (!assignedUser) {
+      throw new CustomError(400, "Assigned user does not exist!");
+    }
+
+    // check if assigned user is in the task category collaborators or is the task creator
+    const category = await Category.findById(task.category);
+    if (
+      !category.collaborators.includes(assignedTo) &&
+      String(task.user) !== String(assignedTo)
+    ) {
+      throw new CustomError(
+        400,
+        "User not in collaborators list and is not the task creator!"
+      );
+    }
+  }
+
+  // update task
+  for (let prop in req.body) {
+    task[prop] = req.body[prop];
+  }
+
+  // save task
+  await task.save();
+
+  res.status(201).json({ success: true, data: task });
+});
+
+export {
+  createTask,
+  getAllTasks,
+  getTasksByCategory,
+  getTaskById,
+  updateTaskById,
+};
