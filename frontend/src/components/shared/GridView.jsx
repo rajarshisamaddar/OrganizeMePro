@@ -18,7 +18,6 @@ const GridView = ({ allTasks, currentStatus }) => {
               <div
                 key={task._id}
                 className="h-auto w-auto cursor-pointer bg-cardBg border border-border p-3 rounded-md overflow-hidden"
-                onClick={()=>navigate(`/viewTask/${task._id}`)}
               >
                 <div className="flex w-full justify-between items-center">
                   <p className="text-lg capitalize my-1">{task.title}</p>
@@ -41,13 +40,15 @@ const GridView = ({ allTasks, currentStatus }) => {
                     )}
                   </div>
                 </div>
-                <MarkDownEditor
-                  markdown={
-                    task.description.length > 50
-                      ? task.description.slice(0, 60)
-                      : task.description
-                  }
-                />
+                <div onClick={() => navigate(`/viewTask/${task._id}`)}>
+                  <MarkDownEditor
+                    markdown={
+                      task.description.length > 50
+                        ? task.description.slice(0, 60)
+                        : task.description
+                    }
+                  />
+                </div>
               </div>
             )
         )}
