@@ -4,6 +4,7 @@ import {
   createTask,
   getAllTasks,
   getTasksByCategory,
+  getTaskById,
 } from "../controllers/task.controller.js";
 
 const router = Router();
@@ -16,6 +17,9 @@ router.route("/get-all").get(verifyJWT, getAllTasks);
 
 // ALPHA: get => get all tasks in a category
 router.route("/get-by-category/:categoryId").get(verifyJWT, getTasksByCategory);
+
+// ALPHA: get => get a particular task details by id
+router.route("/get/:taskId").get(verifyJWT, getTaskById);
 
 // TODO: patch => update a particular task
 // TODO: delete => delete a particular task
