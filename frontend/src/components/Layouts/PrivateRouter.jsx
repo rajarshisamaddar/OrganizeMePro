@@ -30,7 +30,7 @@ const PrivateRouter = () => {
       {user ? (
         <div className="flex gap-x-1 w-full">
           <Sidebar open={open} setOpen={setOpen} />
-          <div className="h-screen overflow-y-auto overflow-x-hidden w-full m-auto relative pr-1">
+          <div className="h-screen overflow-y-auto overflow-x-hidden w-full m-auto relative pr-1 md:pr-0">
             <Header setOpen={setOpen} />
             <Outlet />
           </div>
