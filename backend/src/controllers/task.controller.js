@@ -139,4 +139,42 @@ const getTasksByCategory = AsyncErrorHandler(async (req, res) => {
   });
 });
 
-export { createTask, getAllTasks, getTasksByCategory };
+// get tasks details by id
+
+const getTaskById = AsyncErrorHandler(async (req, res) => {
+  const taskId = req.params.taskId;
+
+  // check if params is empty
+  if (!taskId) {
+    throw new CustomError(400, "Task id is required!");
+  }
+
+  // check if task exists
+  const task = await Task.findOne({
+    _id: taskId,
+  }).populate("category");
+
+  if (!task) {
+    throw new CustomError(400, "Task does not exist!");
+  }
+
+  // check if user has permission to get this task
+
+  const permission =
+    task.user.equals(req.user._id) ||
+    task.category.user.equals(req.user._id) ||
+    task.category.collaborators.includes(req.user._id);
+
+  if (!permission) {
+    throw new CustomError(403, "You do not have permission to get this task!");
+  }
+
+  res.status(200).json({
+    status: "success",
+    statusCode: 201,
+    message: "Task fetched successfully",
+    task: task,
+  });
+});
+
+export { createTask, getAllTasks, getTasksByCategory, getTaskById };
