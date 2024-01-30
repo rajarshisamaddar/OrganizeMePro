@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
+  layout: "grid",
   allTasks: [],
 };
 
@@ -7,6 +8,9 @@ export const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
+    setLayout: (state, action) => {
+      state.layout = action.payload;
+    },
     setTasks: (state, action) => {
       state.allTasks = action.payload;
     },
@@ -21,5 +25,10 @@ export const tasksSlice = createSlice({
   },
 });
 
-export const { setTasks, addOneTask, setUpdatedTask } = tasksSlice.actions;
+export const {
+  setTasks,
+  addOneTask,
+  setUpdatedTask,
+  setLayout,
+} = tasksSlice.actions;
 export default tasksSlice.reducer;
