@@ -14,7 +14,7 @@ const Header = ({ setOpen }) => {
   const { user } = useSelector((state) => state.auth);
   const [openUpdate, setOpenUpdate] = useState(false);
   return (
-    <div className="w-full bg-cardBg md:fixed md:top-0 md:left-0 md:right-0 p-3 my-[.2rem] md:my-0 border border-border">
+    <div className="w-full bg-cardBg md:fixed md:top-0 md:left-0 md:right-0 p-3 my-[.2rem] md:my-0 border border-border z-[1000]">
       <div className="flex justify-between w-full h-full items-center">
         <div
           className="text-xl text-primaryColor hidden md:flex cursor-pointer h-[2.9rem] w-[2.9rem] sm:h-8 sm:w-8 bg-background 
