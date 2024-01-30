@@ -1,0 +1,22 @@
+export const taskStatus = [
+    {
+        id:1,
+        name:"pending",
+        color:"#4361ee"
+    },
+    {
+        id:2,
+        name:"ongoing",
+        color:"#70e000"
+    },
+    {
+        id:3,
+        name:"completed",
+        color:"#dc2f02"
+    },
+    {
+        id:4,
+        name:"archived",
+        color:"#9d6b53"
+    }
+]

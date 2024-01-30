@@ -1,16 +1,18 @@
-import AddTasks from "@/components/Tasks/AddTasks";
 import { setTasks } from "@/redux/slices/tasksSlice";
 import { getTasksByCategory } from "@/utils/tasksService";
-import React, { useEffect } from "react";
-import Markdown from "react-markdown";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { MdOutlinePlaylistAdd } from "react-icons/md";
-import MarkDownEditor from "@/components/Tasks/MarkDownEditor";
+import TasksLayout from "@/components/Layouts/TasksLayout";
+import { TbPlaylistAdd } from "react-icons/tb";
+import GridView from "@/components/shared/GridView";
+import ListView from "@/components/shared/ListView";
 const Category = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [currentStatus, setCurrentStatus] = useState("pending");
+  const [gridView, setGridView] = useState(true);
   const { categories } = useSelector((state) => state.category);
   const category = categories && categories.find((item) => item._id === id);
   const { allTasks } = useSelector((state) => state.tasks);
@@ -24,43 +26,32 @@ const Category = () => {
     getTasks();
   }, [id]);
   return (
-    <div className="mt-3 md:mt-20  p-4 sm:p-2">
+    <TasksLayout
+      name={category && category.title}
+      setCurrentStatus={setCurrentStatus}
+      currentStatus={currentStatus}
+      gridView={gridView}
+      setGridView={setGridView}
+    >
       <div>
-        <h1>{category && category.title}</h1>
-        <div className="w-full my-4 flex justify-end items-center pr-2">
+        <div className="w-full px-8 flex gap-3 justify-end sm:justify-center items-center">
           <button
-            className="mt-4 p-2 rounded-md outline-dashed outline-1 outline-primaryColor px-4 flex justify-center items-center gap-1 
-            text-primaryColor hover:bg-primaryColor transition-transition hover:text-cardBg hover:outline-none"
-            onClick={() => navigate(`/addTask/${id}`)}
+            className="flex items-center gap-1 outline-dashed bg-transparent outline-indigo-600 p-2 px-4
+                justify-center outline-[1.5px] rounded-md text-indigo-600 text-sm font-semibold 
+                transition-transition hover:bg-indigo-600 hover:outline hover:text-white"
+                onClick={()=>navigate(`/addTask/${id}`)}
           >
-            <MdOutlinePlaylistAdd className="text-xl" /> Add Task
+            <TbPlaylistAdd className="text-xl" />
+            Add Task
           </button>
         </div>
-        <div className="grid grid-cols-3 gap-4 md:grid-cols-2 sm:grid-cols-1">
-          {allTasks &&
-            allTasks.map((task) => (
-              <div
-                key={task._id}
-                className="h-auto w-auto  bg-cardBg border border-border p-3 rounded-md overflow-hidden"
-              >
-                <p className="text-lg capitalize my-1 text-indigo-600">
-                  {task.title}
-                </p>
-                <p className="text-sm capitalize my-2 text-green-500">
-                  {task.status}
-                </p>
-                <MarkDownEditor
-                  markdown={
-                    task.description.length > 50
-                      ? task.description.slice(0, 60) + "\n...Read More"
-                      : task.description
-                  }
-                />
-              </div>
-            ))}
-        </div>
+        {gridView ? (
+          <GridView allTasks={allTasks} currentStatus={currentStatus} />
+        ) : (
+          <ListView allTasks={allTasks} currentStatus={currentStatus} />
+        )}
       </div>
-    </div>
+    </TasksLayout>
   );
 };
 
