@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import MarkDownEditor from "./MarkDownEditor";
-const Shared = ({ initialValues, validationSchema, handleSubmit }) => {
+const Shared = ({ initialValues, validationSchema, handleSubmit, type }) => {
   return (
     <Formik
       initialValues={initialValues}
@@ -17,7 +17,7 @@ const Shared = ({ initialValues, validationSchema, handleSubmit }) => {
     >
       {({ values, errors, touched, handleChange }) => (
         <Form className="flex flex-col gap-4 w-full h-full text-cardBg text-sm my-8">
-          <div className="sm:w-full  w-[90%] m-auto flex flex-col gap-1">
+          <div className="sm:w-full w-[90%] m-auto flex flex-col gap-1">
             <label
               htmlFor="dueDate"
               className={`font-semibold capitalize text-sm ${
@@ -50,7 +50,7 @@ const Shared = ({ initialValues, validationSchema, handleSubmit }) => {
               component="p"
             />
           </div>
-          <div className="sm:w-full  w-[90%] m-auto flex flex-col gap-1">
+          <div className="sm:w-full w-[90%] m-auto flex flex-col gap-1">
             <label
               htmlFor="title"
               className={`font-semibold capitalize text-sm ${
@@ -119,7 +119,7 @@ const Shared = ({ initialValues, validationSchema, handleSubmit }) => {
             className="p-2 mt-4 bg-primaryColor text-cardBg font-semibold text-xl rounded-md
           hover:bg-secondaryColor transition-transition w-[90%] m-auto sm:w-full"
           >
-            Add
+            {type}
           </button>
         </Form>
       )}
