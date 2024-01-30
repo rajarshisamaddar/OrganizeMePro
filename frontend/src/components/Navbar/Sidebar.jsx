@@ -8,6 +8,7 @@ import { RxCross2 } from "react-icons/rx";
 import { logoutUser } from "@/redux/slices/AuthSlice";
 import { useDispatch } from "react-redux";
 import { setAdd } from "@/redux/slices/categorySlice";
+import AddTopics from "../Topics/AddTopics";
 const Sidebar = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -80,6 +81,7 @@ const Sidebar = ({ open, setOpen }) => {
           >
             <IoLogOutOutline />
           </button>
+          <AddTopics />
         </div>
       </div>
     </aside>
