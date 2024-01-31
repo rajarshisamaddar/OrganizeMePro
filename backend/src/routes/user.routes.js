@@ -20,6 +20,8 @@ router.route("/login").post(loginUser);
 // ALPHA: get => new access token and refresh token using refresh token
 router.route("/refresh-tokens").post(getNewAccessToken);
 
+// TODO: get => get user details using id
+
 // ALPHA: get => get user details using jwt token
 router.route("/me").get(verifyJWT, getUserDetails);
 
