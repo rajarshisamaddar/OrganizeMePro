@@ -25,7 +25,7 @@ const Category = () => {
     };
     getTasks();
   }, [id]);
-  if (!category || !allTasks) return <Loading />;
+  if (!category || allTasks.length===0) return <Loading />;
   return (
     <TasksLayout
       category={category}
