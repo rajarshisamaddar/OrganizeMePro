@@ -25,11 +25,11 @@ const Header = ({ setOpen }) => {
         </div>
 
         <div
-          className={`md:absolute md:top-[110%] ${
-            openSearch ? "md:right-[.3rem]" : "md:right-[-110%]"
+          className={`md:absolute md:top-[120%] ${
+            openSearch ? "md:right-[.8rem]" : "md:right-[-110%]"
           } w-[30%] rounded-borderRadius p-2 px-4 md:w-[50%] sm:w-[80%]
-          transition-transition
-        flex gap-x-2 bg-background items-center md:bg-cardBg`}
+          transition-transition border border-border
+        flex gap-x-2 bg-background items-center`}
         >
           <CiSearch className="text-xl text-primaryColor font-bold" />
           <input
