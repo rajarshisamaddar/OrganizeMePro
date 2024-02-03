@@ -20,7 +20,7 @@ const Home = () => {
     };
     getTasks();
   }, []);
-  if(allTasks.length===0) return <Loading />
+  // if(allTasks.length===0) return <Loading />
   return (
     <>
       <TasksLayout
