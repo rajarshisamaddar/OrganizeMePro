@@ -8,6 +8,7 @@ import { TbPlaylistAdd } from "react-icons/tb";
 import GridView from "@/components/shared/GridView";
 import ListView from "@/components/shared/ListView";
 import Loading from "@/components/Loading/Loading";
+import NoTask from "@/components/Loading/NoTask";
 const Category = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Category = () => {
     };
     getTasks();
   }, [id]);
-  if (!category || !allTasks) return <Loading />;
+  if (!category) return <Loading />;
   return (
     <TasksLayout
       category={category}
@@ -45,10 +46,24 @@ const Category = () => {
             Add Task
           </button>
         </div>
-        {layout === "grid" ? (
-          <GridView allTasks={allTasks} currentStatus={currentStatus} />
+        {allTasks.length !== 0 ? (
+          layout === "grid" ? (
+            <GridView
+              allTasks={allTasks}
+              category={category}
+              currentStatus={currentStatus}
+              hasMember={category.collaborators.length > 0 && true}
+            />
+          ) : (
+            <ListView
+              allTasks={allTasks}
+              category={category}
+              currentStatus={currentStatus}
+              hasMember={category.collaborators.length > 0 && true}
+            />
+          )
         ) : (
-          <ListView allTasks={allTasks} currentStatus={currentStatus} />
+          <NoTask />
         )}
       </div>
     </TasksLayout>

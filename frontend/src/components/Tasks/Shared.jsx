@@ -31,6 +31,8 @@ const Shared = ({ initialValues, validationSchema, handleSubmit, type }) => {
             <div className="bg-background p-2 rounded-md w-fit text-textColor">
               <DatePicker
                 className="bg-transparent p-1 outline-none"
+                dateFormat='dd-MM-YYYY'
+                locale="es"
                 name="dueDate"
                 selected={values["dueDate"]}
                 onChange={(date) => {

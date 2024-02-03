@@ -6,10 +6,12 @@ import { setUpdatedTask } from "@/redux/slices/tasksSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { MdDelete, MdEditDocument } from "react-icons/md";
+import { LuPlusCircle } from "react-icons/lu";
 
-const ListView = ({ allTasks, currentStatus }) => {
+const ListView = ({ allTasks, currentStatus, hasMember, category }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState({});
+  const [openAssign, setOpenAssign] = useState({});
   const handleTaskStatus = async (taskId, newStatus) => {
     setStatus((prev) => ({
       ...prev,
@@ -25,6 +27,24 @@ const ListView = ({ allTasks, currentStatus }) => {
       toast.success(`task is ${newStatus}`);
     }
   };
+  const handleTaskAssign = (taskId) => {
+    setOpenAssign((prev) => ({
+      ...prev,
+      [taskId]: !prev[taskId],
+    }));
+  };
+
+  const handleAssign = async (taskId, member) => {
+    const assigned = await updateTask({
+      id: taskId,
+      data: { assignedTo: member },
+    });
+    if (assigned) {
+      dispatch(setUpdatedTask(assigned));
+      toast.success(`Assigned to ${member}`);
+      handleTaskAssign(taskId);
+    }
+  };
   const navigate = useNavigate();
   return (
     <div className="flex flex-col gap-4 mt-4 px-8 sm:px-3">
@@ -34,12 +54,11 @@ const ListView = ({ allTasks, currentStatus }) => {
             task.status === currentStatus && (
               <div
                 key={task._id}
-                className="h-[18rem] flex flex-col justify-between w-auto cursor-pointer bg-cardBg border border-border p-3 rounded-md overflow-hidden"
+                className="h-[18rem] relative flex flex-col gap-2 w-auto cursor-pointer 
+                bg-cardBg border border-border p-3 rounded-md overflow-hidden"
               >
                 <div className="flex w-full justify-between items-center">
                   <select
-                    name=""
-                    id=""
                     className="w-[100px] bg-background p-1 rounded-md text-sm border border-border capitalize"
                     value={status[task._id] || task.status}
                     onChange={(e) => handleTaskStatus(task._id, e.target.value)}
@@ -53,6 +72,37 @@ const ListView = ({ allTasks, currentStatus }) => {
                     )}
                   </select>
                   <div className="flex items-center gap-3 text-xl">
+                    {hasMember && category && (
+                      <div>
+                        <div
+                          className="text-indigo-600 text-2xl"
+                          onClick={() => handleTaskAssign(task._id)}
+                        >
+                          <LuPlusCircle />
+                        </div>
+                        {openAssign[task._id] && (
+                          <div
+                            className="absolute h-[10rem] w-[10rem] custom-scroll overflow-y-auto top-12 p-2 bg-cardBg border border-border 
+                                              z-[1000] right-14  rounded-md shadow-md shadow-indigo-500/20"
+                          >
+                            <p className="text-sm font-semibold text-center mb-2">
+                              Assign to
+                            </p>
+                            {category.collaborators.length > 0 &&
+                              category.collaborators.map((item) => (
+                                <div
+                                  key={item}
+                                  onClick={() => handleAssign(task._id, item)}
+                                  className="text-sm my-1 bg-background p-1 rounded-sm hover:bg-primaryColor transition-transition hover:text-cardBg"
+                                >
+                                  {item.slice(0, 8)}
+                                </div>
+                              ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     <div
                       className="text-green-600"
                       onClick={() => navigate(`/editTask/${task._id}`)}
@@ -66,7 +116,7 @@ const ListView = ({ allTasks, currentStatus }) => {
                 </div>
                 <div
                   onClick={() => navigate(`/viewTask/${task._id}`)}
-                  className="mt-3 overflow-hidden border-t border-border flex-1 bg-background rounded-md"
+                  className="mt-3 overflow-hidden border-t border-border h-[65%] bg-background rounded-md"
                 >
                   <div className="p-2  border-b border-border">
                     <p className="capitalize font-semibold text-sm">
@@ -81,6 +131,13 @@ const ListView = ({ allTasks, currentStatus }) => {
                           : task.description
                       }
                     />
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 border-t border-border p-2 px-6 text-sm font-semibold">
+                    {
+                      <div className="flex items-center">
+                        <p>Assigned to - {task.assignedTo.slice(0, 10)}</p>
+                      </div>
+                    }
                   </div>
                 </div>
               </div>

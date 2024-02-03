@@ -6,6 +6,7 @@ import { setTasks } from "@/redux/slices/tasksSlice";
 import TasksLayout from "@/components/Layouts/TasksLayout";
 import GridView from "@/components/shared/GridView";
 import ListView from "@/components/shared/ListView";
+import Loading from "@/components/Loading/Loading";
 const Home = () => {
   const dispatch = useDispatch();
   const [currentStatus, setCurrentStatus] = useState("pending");
@@ -19,6 +20,7 @@ const Home = () => {
     };
     getTasks();
   }, []);
+  // if(allTasks.length===0) return <Loading />
   return (
     <>
       <TasksLayout
