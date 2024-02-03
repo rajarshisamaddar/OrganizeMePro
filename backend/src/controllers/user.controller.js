@@ -161,9 +161,11 @@ const getNewAccessToken = AsyncErrorHandler(async (req, res, next) => {
   });
 });
 
+// get user details using id
+const getUserDetailsById = AsyncErrorHandler(async (req, res, next) => {});
+
 // Get current user details
 const getUserDetails = AsyncErrorHandler(async (req, res, next) => {
-
   // Check if the user exists
 
   const user = await User.findOne(
