@@ -162,7 +162,14 @@ const getNewAccessToken = AsyncErrorHandler(async (req, res, next) => {
 });
 
 // get user details using id
-const getUserDetailsById = AsyncErrorHandler(async (req, res, next) => {});
+const getUserDetailsById = AsyncErrorHandler(async (req, res, next) => {
+  const {userId} = req.params;
+  if(!userId) return new CustomError(404, 'userId required');
+  const findUser = await User.findById(userId);
+  if(findUser){
+    res.status(200).json({_id:findUser._id,name:findUser.fullName, style:findUser.style});
+  }
+});
 
 // Get current user details
 const getUserDetails = AsyncErrorHandler(async (req, res, next) => {
@@ -250,5 +257,6 @@ export {
   loginUser,
   getNewAccessToken,
   getUserDetails,
+  getUserDetailsById,
   updateUserDetails,
 };
