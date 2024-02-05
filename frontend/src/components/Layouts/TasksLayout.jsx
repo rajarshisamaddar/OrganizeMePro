@@ -17,6 +17,7 @@ const TasksLayout = ({
 }) => {
   const dispatch = useDispatch();
   const { layout } = useSelector((state) => state.tasks);
+  const {collaborators} = useSelector((state)=>state.category);
   return (
     <div className="mt-1 md:mt-[4.3rem] mb-8 transition-transition">
       <div className="flex flex-col justify-center gap-3">
@@ -25,15 +26,16 @@ const TasksLayout = ({
             <h1 className="text-xl font-semibold">{category.title}</h1>
             {hasMember && (
               <div className="flex items-center">
-                {category.collaborators.length > 0 &&
-                  category.collaborators
+                {collaborators.length > 0 &&
+                  collaborators
                     .map((item) => (
                       <div
-                        key={item}
-                        className="h-[2.5rem] w-[2.5rem] flex justify-center items-center text-sm rounded-full bg-gray-400 first:ml-0 ml-[-.7rem]
-                      border border-border"
+                        key={item.name}
+                        className="h-[2.5rem] w-[2.5rem] flex justify-center items-center text-sm rounded-full
+                        first:ml-0 ml-[-.7rem] border border-border"
+                        style={{backgroundColor:item.style.color}}
                       >
-                        {getAcronym(item)}
+                        {getAcronym(item.name)}
                       </div>
                     ))
                     .slice(0, 2)}

@@ -9,6 +9,8 @@ import GridView from "@/components/shared/GridView";
 import ListView from "@/components/shared/ListView";
 import Loading from "@/components/Loading/Loading";
 import NoTask from "@/components/Loading/NoTask";
+import { getUserById } from "@/utils/userService";
+import { setCollaborators } from "@/redux/slices/categorySlice";
 const Category = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -26,6 +28,25 @@ const Category = () => {
     };
     getTasks();
   }, [id]);
+
+  useEffect(() => {
+    const getMembers = async () => {
+      if (category) {
+        const collaboratorsData = [];
+        for (const userId of category.collaborators) {
+          const response = await getUserById(userId);
+          collaboratorsData.push(response);
+        }
+        dispatch(
+          setCollaborators(
+            collaboratorsData.length > 0 ? collaboratorsData : []
+          )
+        );
+      }
+    };
+    getMembers();
+  }, [category]);
+
   if (!category) return <Loading />;
   return (
     <TasksLayout

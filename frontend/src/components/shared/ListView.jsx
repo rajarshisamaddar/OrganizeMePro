@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import MarkDownEditor from "../Tasks/MarkDownEditor";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateTask } from "@/utils/tasksService";
 import { setUpdatedTask } from "@/redux/slices/tasksSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { MdDelete, MdEditDocument } from "react-icons/md";
 import { LuPlusCircle } from "react-icons/lu";
+import AssignedTask from "./AssignedTask";
 
 const ListView = ({ allTasks, currentStatus, hasMember, category }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState({});
   const [openAssign, setOpenAssign] = useState({});
+  const { collaborators } = useSelector((state) => state.category);
   const handleTaskStatus = async (taskId, newStatus) => {
     setStatus((prev) => ({
       ...prev,
@@ -27,22 +29,16 @@ const ListView = ({ allTasks, currentStatus, hasMember, category }) => {
       toast.success(`task is ${newStatus}`);
     }
   };
-  const handleTaskAssign = (taskId) => {
-    setOpenAssign((prev) => ({
-      ...prev,
-      [taskId]: !prev[taskId],
-    }));
-  };
 
   const handleAssign = async (taskId, member) => {
     const assigned = await updateTask({
       id: taskId,
-      data: { assignedTo: member },
+      data: { assignedTo: member._id },
     });
     if (assigned) {
       dispatch(setUpdatedTask(assigned));
-      toast.success(`Assigned to ${member}`);
-      handleTaskAssign(taskId);
+      toast.success(`Assigned to ${member.name}`);
+      setOpenAssign((prev) => ({ ...prev, [taskId]: false }));
     }
   };
   const navigate = useNavigate();
@@ -56,6 +52,9 @@ const ListView = ({ allTasks, currentStatus, hasMember, category }) => {
                 key={task._id}
                 className="h-[18rem] relative flex flex-col gap-2 w-auto cursor-pointer 
                 bg-cardBg border border-border p-3 rounded-md overflow-hidden"
+                onMouseLeave={() =>
+                  setOpenAssign((prev) => ({ ...prev, [task._id]: false }))
+                }
               >
                 <div className="flex w-full justify-between items-center">
                   <select
@@ -76,7 +75,12 @@ const ListView = ({ allTasks, currentStatus, hasMember, category }) => {
                       <div>
                         <div
                           className="text-indigo-600 text-2xl"
-                          onClick={() => handleTaskAssign(task._id)}
+                          onClick={() =>
+                            setOpenAssign((prev) => ({
+                              ...prev,
+                              [task._id]: !prev[task._id],
+                            }))
+                          }
                         >
                           <LuPlusCircle />
                         </div>
@@ -88,14 +92,15 @@ const ListView = ({ allTasks, currentStatus, hasMember, category }) => {
                             <p className="text-sm font-semibold text-center mb-2">
                               Assign to
                             </p>
-                            {category.collaborators.length > 0 &&
-                              category.collaborators.map((item) => (
+                            {collaborators.length > 0 &&
+                              collaborators.map((item) => (
                                 <div
-                                  key={item}
+                                  key={item._id}
                                   onClick={() => handleAssign(task._id, item)}
-                                  className="text-sm my-1 bg-background p-1 rounded-sm hover:bg-primaryColor transition-transition hover:text-cardBg"
+                                  className="text-sm my-1 bg-background p-1 rounded-sm hover:bg-primaryColor transition-transition 
+                                  hover:text-cardBg"
                                 >
-                                  {item.slice(0, 8)}
+                                  {item.name}
                                 </div>
                               ))}
                           </div>
@@ -133,11 +138,11 @@ const ListView = ({ allTasks, currentStatus, hasMember, category }) => {
                     />
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 border-t border-border p-2 px-6 text-sm font-semibold">
-                    {
-                      <div className="flex items-center">
-                        <p>Assigned to - {task.assignedTo.slice(0, 10)}</p>
-                      </div>
-                    }
+                  {hasMember && (
+                    <div className="absolute bottom-0 left-0 right-0 border-t border-border p-2 px-4 text-sm font-semibold">
+                      <AssignedTask task={task} />
+                    </div>
+                  )}
                   </div>
                 </div>
               </div>

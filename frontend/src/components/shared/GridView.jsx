@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MarkDownEditor from "../Tasks/MarkDownEditor";
 import { MdEditDocument } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUpdatedTask } from "@/redux/slices/tasksSlice";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -9,9 +9,11 @@ import { updateTask } from "@/utils/tasksService";
 import toast from "react-hot-toast";
 import { LuPlusCircle } from "react-icons/lu";
 import { getAcronym } from "@/data/getAcronym";
+import AssignedTask from "./AssignedTask";
 const GridView = ({ allTasks, currentStatus, hasMember, category }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState({});
+  const { collaborators } = useSelector((state) => state.category);
   const [openAssign, setOpenAssign] = useState({});
   const handleTaskStatus = async (taskId, newStatus) => {
     setStatus((prev) => ({
@@ -29,22 +31,15 @@ const GridView = ({ allTasks, currentStatus, hasMember, category }) => {
     }
   };
 
-  const handleTaskAssign = (taskId) => {
-    setOpenAssign((prev) => ({
-      ...prev,
-      [taskId]: !prev[taskId],
-    }));
-  };
-
   const handleAssign = async (taskId, member) => {
     const assigned = await updateTask({
       id: taskId,
-      data: { assignedTo: member },
+      data: { assignedTo: member._id },
     });
     if (assigned) {
       dispatch(setUpdatedTask(assigned));
-      toast.success(`Assigned to ${member}`);
-      handleTaskAssign(taskId);
+      toast.success(`Assigned to ${member.name}`);
+      setOpenAssign((prev) => ({ ...prev, [taskId]: false }));
     }
   };
   const navigate = useNavigate();
@@ -58,6 +53,9 @@ const GridView = ({ allTasks, currentStatus, hasMember, category }) => {
                 key={task._id}
                 className="h-[18rem] flex flex-col gap-2 w-auto cursor-pointer relative 
                 bg-cardBg border border-border p-3 rounded-md overflow-hidden"
+                onMouseLeave={() =>
+                  setOpenAssign((prev) => ({ ...prev, [task._id]: false }))
+                }
               >
                 <div className="flex w-full justify-between items-center">
                   <select
@@ -78,26 +76,32 @@ const GridView = ({ allTasks, currentStatus, hasMember, category }) => {
                       <div>
                         <div
                           className="text-indigo-600 text-2xl"
-                          onClick={() => handleTaskAssign(task._id)}
+                          onClick={() =>
+                            setOpenAssign((prev) => ({
+                              ...prev,
+                              [task._id]: !prev[task._id],
+                            }))
+                          }
                         >
                           <LuPlusCircle />
                         </div>
                         {openAssign[task._id] && (
                           <div
-                            className="absolute h-[10rem] w-[10rem] custom-scroll overflow-y-auto top-12 p-2 bg-cardBg border border-border 
-                                              z-[1000] right-14  rounded-md shadow-md shadow-indigo-500/20"
+                            className="absolute h-[10rem] w-[10rem] custom-scroll overflow-y-auto top-12 p-2 bg-cardBg border 
+                            border-border z-[1000] right-14  rounded-md shadow-md shadow-indigo-500/20"
                           >
                             <p className="text-sm font-semibold text-center mb-2">
                               Assign to
                             </p>
-                            {category.collaborators.length > 0 &&
-                              category.collaborators.map((item) => (
+                            {collaborators.length > 0 &&
+                              collaborators.map((item) => (
                                 <div
-                                  key={item}
+                                  key={item._id}
                                   onClick={() => handleAssign(task._id, item)}
-                                  className="text-sm my-1 bg-background p-1 rounded-sm hover:bg-primaryColor transition-transition hover:text-cardBg"
+                                  className="text-sm my-1 bg-background p-1 rounded-sm hover:bg-primaryColor transition-transition 
+                                  hover:text-cardBg"
                                 >
-                                  {item.slice(0, 8)}
+                                  {item.name}
                                 </div>
                               ))}
                           </div>
@@ -135,13 +139,11 @@ const GridView = ({ allTasks, currentStatus, hasMember, category }) => {
                     />
                   </div>
 
-                  <div className="absolute bottom-0 left-0 right-0 border-t border-border p-2 px-6 text-sm font-semibold">
-                    {
-                      <div className="flex items-center">
-                        <p>Assigned to - {task.assignedTo.slice(0, 10)}</p>
-                      </div>
-                    }
-                  </div>
+                  {hasMember && (
+                    <div className="absolute bottom-0 left-0 right-0 border-t border-border p-2 px-4 text-sm font-semibold">
+                      <AssignedTask task={task} />
+                    </div>
+                  )}
                 </div>
               </div>
             )
