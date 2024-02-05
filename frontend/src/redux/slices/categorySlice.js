@@ -2,12 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   toogleCategory: false,
   categories: [],
+  collaborators: [],
 };
 
 export const categorySlice = createSlice({
   name: "category",
   initialState,
   reducers: {
+    setCollaborators: (state, action) => {
+      state.collaborators = action.payload;
+    },
     setAdd: (state, action) => {
       state.toogleCategory = action.payload;
     },
@@ -17,10 +21,10 @@ export const categorySlice = createSlice({
     },
     updateCategorySlice: (state, action) => {
       const upadteCategory = state.categories.map((item) =>
-        item._id === action.payload._id ? {...item, ...action.payload} : item
+        item._id === action.payload._id ? { ...item, ...action.payload } : item
       );
 
-      state.categories=upadteCategory;
+      state.categories = upadteCategory;
     },
     addCategory: (state, action) => {
       state.categories = [...state.categories, action.payload];
@@ -28,6 +32,11 @@ export const categorySlice = createSlice({
   },
 });
 
-export const { addCategory, setAdd, setCategory, updateCategorySlice } =
-  categorySlice.actions;
+export const {
+  addCategory,
+  setCollaborators,
+  setAdd,
+  setCategory,
+  updateCategorySlice,
+} = categorySlice.actions;
 export default categorySlice.reducer;
