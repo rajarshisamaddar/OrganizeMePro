@@ -7,6 +7,7 @@ import {
   getNewAccessToken,
   getUserDetails,
   updateUserDetails,
+  getUserDetailsById,
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -21,12 +22,14 @@ router.route("/login").post(loginUser);
 router.route("/refresh-tokens").post(getNewAccessToken);
 
 // TODO: get => get user details using id
+router.route('/profile/:userId').get(verifyJWT, getUserDetailsById)
 
 // ALPHA: get => get user details using jwt token
 router.route("/me").get(verifyJWT, getUserDetails);
 
 // ALPHA: patch => update user details using email
 router.route("/me/:email").patch(verifyJWT, updateUserDetails);
+
 
 // TODO: delete => delete user
 // TODO: post => forgot password
