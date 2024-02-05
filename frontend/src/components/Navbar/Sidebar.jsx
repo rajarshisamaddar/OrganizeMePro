@@ -17,7 +17,7 @@ const Sidebar = ({ open, setOpen }) => {
       className={`h-screen overflow-y-auto bg-cardBg w-[300px] ${
         open ? "md:left-0" : "md:left-[-110%]"
       } transition-transition  md:fixed flex relative flex-col overflow-x-hidden
-        border border-border z-[1000]`}
+        border border-border z-[1000000]`}
     >
       <div
         className="text-xl right-0 top-0 absolute bg-primaryColor p-1 text-cardBg cursor-pointer 
